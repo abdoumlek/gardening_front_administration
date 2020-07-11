@@ -15,6 +15,7 @@ const Navigation: FC<any> = ({ location }) => {
       "nav-item",
       "nav-item",
       "nav-item",
+      "nav-item",
     ];
     initialClasses[0] = "nav-item";
     setLinkClasses(initialClasses);
@@ -31,6 +32,11 @@ const Navigation: FC<any> = ({ location }) => {
       }
       case "/productsorderslist": {
         initialClasses[3] = initialClasses[3] + " active";
+        setLinkClasses(initialClasses);
+        break;
+      }
+      case "/addcategory": {
+        initialClasses[7] = initialClasses[7] + " active";
         setLinkClasses(initialClasses);
         break;
       }
@@ -84,6 +90,12 @@ const Navigation: FC<any> = ({ location }) => {
       <li className={linkClasses[2]}>
         <Link to="/addproduct" className="nav-link">
           AddProudct
+        </Link>
+      </li>
+
+      <li className={linkClasses[7]}>
+        <Link to="/addcategory" className="nav-link">
+          add category
         </Link>
       </li>
 

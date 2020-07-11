@@ -4,6 +4,7 @@ import Navigation from "./Components/Navigation/Navigation";
 import Home from "./Views/Home/Home";
 import ProductsList from "./Views/Products/ProductsList";
 import AddProduct from "./Views/Products/AddProduct";
+import AddCategory from "./Views/Products/AddCategory";
 import ProductsOrdersList from "./Views/OrdersList/ProductsOrdersList";
 import GardensOrdersList from "./Views/OrdersList/GardensOrdersList";
 import "./App.css"
@@ -24,6 +25,9 @@ function App() {
           </Route>
           <Route path="/addproduct">
             <AddProduct />
+          </Route>
+          <Route path="/addcategory">
+            <AddCategory />
           </Route>
           <Route path="/modifyproduct">
             <AddProduct />
