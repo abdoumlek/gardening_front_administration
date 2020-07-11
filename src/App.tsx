@@ -1,25 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Navigation from "./Components/Navigation/Navigation";
+import Home from "./Views/Home/Home";
+import ProductsList from "./Views/Products/ProductsList";
+import AddProduct from "./Views/Products/AddProduct";
+import ProductsOrdersList from "./Views/OrdersList/ProductsOrdersList";
+import GardensOrdersList from "./Views/OrdersList/GardensOrdersList";
+import "./App.css"
+import AddOrder from "./Views/OrdersList/AddOrder";
+import OrdersHistory from "./Views/OrdersList/OrdersHistory";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navigation />
+      <div className="page-wrapper">
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/productslist">
+            <ProductsList />
+          </Route>
+          <Route path="/addproduct">
+            <AddProduct />
+          </Route>
+          <Route path="/productsorderslist">
+            <ProductsOrdersList />
+          </Route>
+          <Route path="/gardensorderslist">
+            <GardensOrdersList />
+          </Route>
+          <Route path="/addorder">
+            <AddOrder />
+          </Route>
+          <Route path="/ordershistory">
+            <OrdersHistory />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 

@@ -1,0 +1,25 @@
+.navigation-component .nav-item a {
+  color: white;
+}
+.navigation-component {
+  height: 100vh;
+  width: 14rem;
+  padding: 1rem;
+}
+.navigation-component .sidebar-divider {
+  border-top: 1px solid white;
+  margin: 1rem 0;
+}
+.navigation-component .sidebar-heading {
+  color: #ffffff6b;
+  font-size: large;
+}
+.navigation-component .sidebar-brand-text {
+  color: white;
+  font-size: large;
+  text-align: center;
+}
+.navigation-component .nav-item.active a{
+  color: #ffce5f;
+  font-weight: bold;
+}

@@ -11,3 +11,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+$enable-gradients: true;
+$theme-colors: (
+  "primary": #0074d9,
+);
+@import "node_modules/bootstrap/scss/bootstrap";
