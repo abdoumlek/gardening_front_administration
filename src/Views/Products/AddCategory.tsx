@@ -18,6 +18,8 @@ const AddProduct: FC<any> = () => {
   return (
     <div>
       <h1>Ajouter une categorie de produits</h1>
+      <label>Nom de la category</label>
+
       <div className="input-group mb-3">
         <input
           value={name}
@@ -29,6 +31,8 @@ const AddProduct: FC<any> = () => {
           aria-describedby="inputGroup-sizing-default"
         />
       </div>
+      <label>Description de la category</label>
+
       <div className="input-group mb-3">
         <textarea
           value={description}
