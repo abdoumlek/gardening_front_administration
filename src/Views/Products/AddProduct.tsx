@@ -134,7 +134,7 @@ const AddProduct: FC<any> = ({ token }) => {
             {
               height: "300",
               width: "300",
-              blur: 1
+              blur: 3
             },
           ]}
         />
