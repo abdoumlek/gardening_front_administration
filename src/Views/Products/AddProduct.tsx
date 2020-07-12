@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
-import { IKContext, IKUpload } from "imagekitio-react";
+import { IKContext, IKUpload, IKImage } from "imagekitio-react";
 import axios from "axios";
 
 const AddProduct: FC<any> = ({ token }) => {
@@ -121,12 +121,22 @@ const AddProduct: FC<any> = ({ token }) => {
             className="custom-file-input"
             id="image-input"
             fileName="my-upload"
-            onSuccess={(res) => setImageUrl(res.data.path)}
+            onSuccess={(res) => setImageUrl(res.filePath)}
           />
           <label className="custom-file-label" htmlFor="image-input">
             Choose image
           </label>
         </div>
+        <IKImage
+          className="d-block"
+          path={imageUrl}
+          transformation={[
+            {
+              height: "300",
+              width: "400",
+            },
+          ]}
+        />
       </IKContext>
       <label>Prix de vente du produit</label>
 
