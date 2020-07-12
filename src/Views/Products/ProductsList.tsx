@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from "react";
-import { IKContext, IKImage } from "imagekitio-react";
+import ImageLoading from "../../Components/ImageLoading/ImageLoading";
 
 import axios from "axios";
 
@@ -44,24 +44,7 @@ const AddProduct: FC<any> = ({ token }) => {
               <tr key={p.id}>
                 <th scope="row">{p.id}</th>
                 <td>
-                  <IKContext
-                    publicKey="public_LV4KSYYDKUQ9OWZZM0ZIerfMH1s="
-                    urlEndpoint="https://ik.imagekit.io/cjvyejrxtm"
-                    transformationPosition="path"
-                    authenticationEndpoint="https://plantes-et-jardins-back.herokuapp.com/api/products/upload"
-                  >
-                    <IKImage
-                      className="d-block"
-                      path={p.photo}
-                      transformation={[
-                        {
-                          height: "100",
-                          width: "100",
-                          blur: 1
-                        },
-                      ]}
-                    />
-                  </IKContext>
+                  <ImageLoading height={100} width={100} imageUrl={p.photo} />
                 </td>
                 <td>{p.name}</td>
                 <td>{p.buying_price}</td>

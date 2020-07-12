@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect } from "react";
-import { IKContext, IKUpload, IKImage } from "imagekitio-react";
+import { IKContext, IKUpload } from "imagekitio-react";
 import axios from "axios";
+import ImageLoading from "../../Components/ImageLoading/ImageLoading";
 
 const AddProduct: FC<any> = ({ token }) => {
   const [categories, setCategories] = useState<any>([]);
@@ -127,18 +128,8 @@ const AddProduct: FC<any> = ({ token }) => {
             Choose image
           </label>
         </div>
-        <IKImage
-          className="d-block"
-          path={imageUrl}
-          transformation={[
-            {
-              height: "300",
-              width: "300",
-              blur: 3
-            },
-          ]}
-        />
       </IKContext>
+      <ImageLoading height={300} width={300} imageUrl={imageUrl} />
       <label>Prix de vente du produit</label>
 
       <div className="input-group mb-3">
