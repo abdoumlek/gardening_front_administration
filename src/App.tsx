@@ -1,51 +1,31 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Navigation from "./Components/Navigation/Navigation";
-import Home from "./Views/Home/Home";
-import ProductsList from "./Views/Products/ProductsList";
-import AddProduct from "./Views/Products/AddProduct";
-import AddCategory from "./Views/Products/AddCategory";
-import ProductsOrdersList from "./Views/OrdersList/ProductsOrdersList";
-import GardensOrdersList from "./Views/OrdersList/GardensOrdersList";
-import "./App.css"
-import AddOrder from "./Views/OrdersList/AddOrder";
-import OrdersHistory from "./Views/OrdersList/OrdersHistory";
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
+
+import AuthentifiedContent from "./Views/Auth/AuthentifiedContent";
+import Login from "./Views/Auth/Login";
+import "./App.css";
 
 function App() {
+  const [auth, setAuth] = useState<any>(null);
   return (
     <Router>
-      <Navigation />
-      <div className="page-wrapper">
-        <Switch>
-          <Route exact path="/">
-            <Home />
+      <Switch>
+        <Route path="/login">
+          <Login loginSuccess={(authData) => setAuth(authData)} />
+        </Route>
+        {auth ? (
+          <Route path="*">
+            <AuthentifiedContent token={auth.access_token}/>
           </Route>
-          <Route path="/productslist">
-            <ProductsList />
-          </Route>
-          <Route path="/addproduct">
-            <AddProduct />
-          </Route>
-          <Route path="/addcategory">
-            <AddCategory />
-          </Route>
-          <Route path="/modifyproduct">
-            <AddProduct />
-          </Route>
-          <Route path="/productsorderslist">
-            <ProductsOrdersList />
-          </Route>
-          <Route path="/gardensorderslist">
-            <GardensOrdersList />
-          </Route>
-          <Route path="/addorder">
-            <AddOrder />
-          </Route>
-          <Route path="/ordershistory">
-            <OrdersHistory />
-          </Route>
-        </Switch>
-      </div>
+        ) : null}
+        {!auth ? <Redirect from="*" to="/login" /> : null}
+        {auth ? <Redirect from="*" to="/" /> : null}
+      </Switch>
     </Router>
   );
 }

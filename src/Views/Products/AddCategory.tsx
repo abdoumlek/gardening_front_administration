@@ -1,15 +1,23 @@
 import React, { FC, useState } from "react";
 import axios from "axios";
 
-const AddProduct: FC<any> = () => {
+const AddProduct: FC<any> = ({token}) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const postCategory = (name, description) => {
     axios
-      .post("https://plantes-et-jardins-back.herokuapp.com/api/categories", {
-        name: name,
-        description: description,
-      })
+      .post(
+        "https://plantes-et-jardins-back.herokuapp.com/api/categories",
+        {
+          name: name,
+          description: description,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(response);
       })

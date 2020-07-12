@@ -1,10 +1,11 @@
-import React, { useState, useEffect,FC } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, FC } from "react";
+import { Link, useLocation } from "react-router-dom";
 import "./Navigation.scss";
-import { withRouter } from "react-router-dom";
 
-const Navigation: FC<any> = ({ location }) => {
+
+const Navigation: FC<any> = () => {
   const [linkClasses, setLinkClasses] = useState<string[]>([]);
+  let location =useLocation();
   useEffect(() => {
     const initialClasses = [
       "nav-item active",
@@ -128,4 +129,4 @@ const Navigation: FC<any> = ({ location }) => {
   );
 };
 
-export default withRouter(Navigation);
+export default Navigation;

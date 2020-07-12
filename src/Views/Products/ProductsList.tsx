@@ -1,19 +1,26 @@
 import React, { FC, useState, useEffect } from "react";
 import axios from "axios";
 
-const AddProduct: FC<any> = () => {
+const AddProduct: FC<any> = ({ token }) => {
   const [products, setProducts] = useState<any>([]);
   useEffect(() => {
     const getProducts = () => {
       axios
-        .get("https://plantes-et-jardins-back.herokuapp.com/api/products/admin")
+        .get(
+          "https://plantes-et-jardins-back.herokuapp.com/api/products/admin",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((response) => {
           setProducts(response.data);
         })
         .catch((e) => console.error(e));
     };
     getProducts();
-  }, []);
+  }, [token]);
 
   return (
     <div>

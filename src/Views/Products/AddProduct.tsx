@@ -2,24 +2,30 @@ import React, { FC, useState, useEffect } from "react";
 import { IKContext, IKUpload } from "imagekitio-react";
 import axios from "axios";
 
-const AddProduct: FC<any> = () => {
+const AddProduct: FC<any> = ({ token }) => {
   const [categories, setCategories] = useState<any>([]);
   useEffect(() => {
     const getCategories = () => {
       axios
-        .get("https://plantes-et-jardins-back.herokuapp.com/api/categories")
+        .get("https://plantes-et-jardins-back.herokuapp.com/api/categories", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         .then((response) => {
           setCategories(response.data);
         })
         .catch((e) => console.error(e));
     };
     getCategories();
-  }, []);
+  }, [token]);
 
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [category, setCategory] = useState<number>(1);
-  const [imageUrl, setImageUrl] = useState<string>("/shekhar-chandra-sahu-72P_hMW2l_g-unsplash_6Md5qI8a-.jpg");
+  const [imageUrl, setImageUrl] = useState<string>(
+    "/shekhar-chandra-sahu-72P_hMW2l_g-unsplash_6Md5qI8a-.jpg"
+  );
   const [sellingPrice, setSellingPrice] = useState<number>(0);
   const [buyingPrice, setBuyingPrice] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(0);
@@ -36,16 +42,24 @@ const AddProduct: FC<any> = () => {
     discount
   ) => {
     axios
-      .post("https://plantes-et-jardins-back.herokuapp.com/api/products", {
-        name: name,
-        description: description,
-        category_id: category,
-        photo: imageUrl,
-        selling_price: sellingPrice,
-        buying_price: buyingPrice,
-        quantity: quantity,
-        discount: discount,
-      })
+      .post(
+        "https://plantes-et-jardins-back.herokuapp.com/api/products",
+        {
+          name: name,
+          description: description,
+          category_id: category,
+          photo: imageUrl,
+          selling_price: sellingPrice,
+          buying_price: buyingPrice,
+          quantity: quantity,
+          discount: discount,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(response);
       })
@@ -99,7 +113,7 @@ const AddProduct: FC<any> = () => {
         publicKey="public_LV4KSYYDKUQ9OWZZM0ZIerfMH1s="
         urlEndpoint="https://ik.imagekit.io/cjvyejrxtm"
         transformationPosition="path"
-        authenticationEndpoint="https://plantes-et-jardins-back.herokuapp.com/api/products/admin/uploadimage"
+        authenticationEndpoint="https://plantes-et-jardins-back.herokuapp.com/api/products/upload"
       >
         <div className="custom-file mb-3">
           {/* TODO add image logic */}
@@ -107,7 +121,7 @@ const AddProduct: FC<any> = () => {
             className="custom-file-input"
             id="image-input"
             fileName="my-upload"
-            onSuccess={(res)=>setImageUrl(res.data.path)}
+            onSuccess={(res) => setImageUrl(res.data.path)}
           />
           <label className="custom-file-label" htmlFor="image-input">
             Choose image
