@@ -133,7 +133,8 @@ const AddProduct: FC<any> = ({ token }) => {
           transformation={[
             {
               height: "300",
-              width: "400",
+              width: "300",
+              blur: 1
             },
           ]}
         />
