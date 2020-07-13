@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FC } from "react";
 import { Link, useLocation } from "react-router-dom";
-import "./Navigation.scss";
+import "./Navigation.css";
 
 
 const Navigation: FC<any> = () => {
@@ -8,7 +8,7 @@ const Navigation: FC<any> = () => {
   let location =useLocation();
   useEffect(() => {
     const initialClasses = [
-      "nav-item active",
+      "nav-item ",
       "nav-item",
       "nav-item",
       "nav-item",
@@ -18,7 +18,6 @@ const Navigation: FC<any> = () => {
       "nav-item",
       "nav-item",
     ];
-    initialClasses[0] = "nav-item";
     setLinkClasses(initialClasses);
     switch (location?.pathname) {
       case "/productslist": {
@@ -80,7 +79,7 @@ const Navigation: FC<any> = () => {
 
       <hr className="sidebar-divider" />
 
-      <div className="sidebar-heading">Produits</div>
+      <div className="sidebar-heading mb-2">Produits</div>
 
       <li className={linkClasses[1]}>
         <Link to="/productslist" className="nav-link">
@@ -102,7 +101,7 @@ const Navigation: FC<any> = () => {
 
       <hr className="sidebar-divider" />
 
-      <div className="sidebar-heading">Orders</div>
+      <div className="sidebar-heading mb-2">Orders</div>
 
       <li className={linkClasses[3]}>
         <Link to="/productsorderslist" className="nav-link">

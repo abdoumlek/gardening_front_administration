@@ -6,7 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import LoadingScreen from "./Components/LoadingScreen/LoadingScreen";
+import AfterAuthLoading from "./Components/LoadingScreen/AfterAuthLoading";
 import Login from "./Views/Auth/Login";
 import "./App.css";
 
@@ -23,7 +23,7 @@ function App() {
         </Route>
         {auth ? (
           <Route path="*">
-            <Suspense fallback={<LoadingScreen />}>
+            <Suspense fallback={<AfterAuthLoading />}>
               <AuthentifiedContent token={auth.access_token} />
             </Suspense>
           </Route>

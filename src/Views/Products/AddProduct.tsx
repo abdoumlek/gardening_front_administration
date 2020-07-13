@@ -129,7 +129,7 @@ const AddProduct: FC<any> = ({ token }) => {
           </label>
         </div>
       </IKContext>
-      <ImageLoading height={300} width={300} imageUrl={imageUrl} />
+      <ImageLoading alt="image ajouté" height={300} width={300} imageUrl={imageUrl} />
       <label>Prix de vente du produit</label>
 
       <div className="input-group mb-3">

@@ -1,12 +1,14 @@
 import React, { FC, useState, useEffect } from "react";
-import ImageLoading from "../../Components/ImageLoading/ImageLoading";
-
 import axios from "axios";
-
-const AddProduct: FC<any> = ({ token }) => {
+import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
+import "./ProductsList.css";
+import Product from "../../Components/Product/Product";
+const ProductsList: FC<any> = ({ token }) => {
   const [products, setProducts] = useState<any>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     const getProducts = () => {
+      setLoading(true);
       axios
         .get(
           "https://plantes-et-jardins-back.herokuapp.com/api/products/admin",
@@ -18,45 +20,49 @@ const AddProduct: FC<any> = ({ token }) => {
         )
         .then((response) => {
           setProducts(response.data);
+          setLoading(false);
         })
         .catch((e) => console.error(e));
     };
     getProducts();
   }, [token]);
 
+  const openProduct = (product) => {
+    console.log(product);
+  };
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
   return (
-    <div>
-      <h1>Products List</h1>
-      <table className="table table-bordered">
-        <thead>
-          <tr>
-            <th scope="col">Reference</th>
-            <th scope="col">Image</th>
-            <th scope="col">Name</th>
-            <th scope="col">Buying Price</th>
-            <th scope="col">Selling Price</th>
-            <th scope="col">Quantity</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map((p) => {
-            return (
-              <tr key={p.id}>
-                <th scope="row">{p.id}</th>
-                <td>
-                  <ImageLoading height={100} width={100} imageUrl={p.photo} />
-                </td>
-                <td>{p.name}</td>
-                <td>{p.buying_price}</td>
-                <td>{p.selling_price}</td>
-                <td>{p.quantity}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+    <div className="p-2">
+      <h1 className="text-center">Products List</h1>
+      <div className="products-list">
+        {products.map((p) => {
+          return (
+            <div
+              className="single-product"
+              key={p.id}
+              onClick={() => {
+                openProduct(p);
+              }}
+            >
+              <Product
+                buying_price={p.buying_price}
+                name={p.name}
+                photo={p.photo}
+                selling_price={p.selling_price}
+                category={p.category}
+                reference={p.reference}
+                quantity={p.quantity}
+              />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
 
-export default AddProduct;
+export default ProductsList;

@@ -1,9 +1,10 @@
 import React, { FC } from "react";
-import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
-
+import "./Home.css"
 const Home: FC<any> = () => {
   return (
-      <LoadingScreen />
+      <div className="p-2">
+        <h1 className="text-center">Dashboard</h1>
+      </div>
   );
 };
 
