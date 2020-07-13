@@ -7,10 +7,11 @@ import GardensOrdersList from "../OrdersList/GardensOrdersList";
 import AddOrder from "../OrdersList/AddOrder";
 import OrdersHistory from "../OrdersList/OrdersHistory";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
-
-const ProductsList = lazy(() => import("../Products/ProductsList"));
+import ProductsList from "../Products/ProductsList";
+import "./AuthentifiedContent.css";
 const AddProduct = lazy(() => import("../Products/AddProduct"));
 const AddCategory = lazy(() => import("../Products/AddCategory"));
+
 function AuthentifiedContent({ token }) {
   return (
     <Router>
@@ -21,9 +22,7 @@ function AuthentifiedContent({ token }) {
             <Home />
           </Route>
           <Route path="/productslist">
-            <Suspense fallback={<LoadingScreen />}>
-              <ProductsList token={token} />
-            </Suspense>
+            <ProductsList token={token} />
           </Route>
           <Route path="/addproduct">
             <Suspense fallback={<LoadingScreen />}>
