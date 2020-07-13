@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -6,12 +6,15 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import AuthentifiedContent from "./Views/Auth/AuthentifiedContent";
+import LoadingScreen from "./Components/LoadingScreen/LoadingScreen";
 import Login from "./Views/Auth/Login";
 import "./App.css";
 
 function App() {
   const [auth, setAuth] = useState<any>(null);
+  const AuthentifiedContent = lazy(() =>
+    import("./Views/Auth/AuthentifiedContent")
+  );
   return (
     <Router>
       <Switch>
@@ -20,7 +23,9 @@ function App() {
         </Route>
         {auth ? (
           <Route path="*">
-            <AuthentifiedContent token={auth.access_token}/>
+            <Suspense fallback={<LoadingScreen />}>
+              <AuthentifiedContent token={auth.access_token} />
+            </Suspense>
           </Route>
         ) : null}
         {!auth ? <Redirect from="*" to="/login" /> : null}

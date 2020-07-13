@@ -1,16 +1,17 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navigation from "../../Components/Navigation/Navigation";
 import Home from "../Home/Home";
-import ProductsList from "../Products/ProductsList";
-import AddProduct from "../Products/AddProduct";
-import AddCategory from "../Products/AddCategory";
 import ProductsOrdersList from "../OrdersList/ProductsOrdersList";
 import GardensOrdersList from "../OrdersList/GardensOrdersList";
 import AddOrder from "../OrdersList/AddOrder";
 import OrdersHistory from "../OrdersList/OrdersHistory";
+import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 
-function AuthentifiedContent({token}) {
+const ProductsList = lazy(() => import("../Products/ProductsList"));
+const AddProduct = lazy(() => import("../Products/AddProduct"));
+const AddCategory = lazy(() => import("../Products/AddCategory"));
+function AuthentifiedContent({ token }) {
   return (
     <Router>
       <Navigation />
@@ -20,28 +21,34 @@ function AuthentifiedContent({token}) {
             <Home />
           </Route>
           <Route path="/productslist">
-            <ProductsList token={token}/>
+            <Suspense fallback={<LoadingScreen />}>
+              <ProductsList token={token} />
+            </Suspense>
           </Route>
           <Route path="/addproduct">
-            <AddProduct token={token}/>
+            <Suspense fallback={<LoadingScreen />}>
+              <AddProduct token={token} />
+            </Suspense>
           </Route>
           <Route path="/addcategory">
-            <AddCategory token={token} />
+            <Suspense fallback={<LoadingScreen />}>
+              <AddCategory token={token} />
+            </Suspense>
           </Route>
           <Route path="/modifyproduct">
-            <AddProduct token={token}/>
+            <AddProduct token={token} />
           </Route>
           <Route path="/productsorderslist">
-            <ProductsOrdersList token={token}/>
+            <ProductsOrdersList token={token} />
           </Route>
           <Route path="/gardensorderslist">
             <GardensOrdersList token={token} />
           </Route>
           <Route path="/addorder">
-            <AddOrder token={token}/>
+            <AddOrder token={token} />
           </Route>
           <Route path="/ordershistory">
-            <OrdersHistory token={token}/>
+            <OrdersHistory token={token} />
           </Route>
         </Switch>
       </div>
