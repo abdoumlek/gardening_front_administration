@@ -23,15 +23,27 @@ const Product: FC<ProductType> = ({
   return (
     <div className="product-component">
       <ImageLoading alt={name} height={150} width={150} imageUrl={photo} />
-      <div className="text-content">
-        <p className="text-center mb-3">
+      <div className="text-content  px-2">
+        <p className="text-center mb-1 product-name">
           {name} {reference ? " - " + reference : null}
         </p>
-        <p>categorie: {category}</p>
+        <p>
+          <span>Catégorie: </span>
+          {category}
+        </p>
         <hr className="divider" />
-        <p >prix d'achat: {buying_price}</p>
-        <p >prix de vente: {selling_price}</p>
-        <p >en stock: {quantity}</p>
+        <p>
+          <span>Prix d'achat: </span>
+          {buying_price}
+        </p>
+        <p>
+          <span>Prix de vente: </span>
+          {selling_price}
+        </p>
+        <p>
+          <span>En stock: </span>
+          {quantity}
+        </p>
       </div>
     </div>
   );

@@ -16,7 +16,7 @@ const ImageLoading: FC<ImageProps> = ({ imageUrl, width, height, alt }) => {
   };
 
   return (
-    <div className="image-container">
+    <div className="image-container d-inline-block">
       <img
         alt={alt}
         className={lowResClass}

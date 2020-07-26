@@ -14,7 +14,15 @@
   margin: 5px;
   line-height: 1rem;
 }
+.product-component .text-content span {
+  font-weight: bold;
+}
 .product-component .divider {
   border-top: 1px solid gray;
   margin: 0.5rem 1rem;
+}
+.product-component .product-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: capitalize;
 }

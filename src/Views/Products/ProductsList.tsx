@@ -37,7 +37,7 @@ const ProductsList: FC<any> = ({ token }) => {
 
   return (
     <div className="p-2">
-      <h1 className="text-center">Products List</h1>
+      <h1 className="text-center mb-5">Products List</h1>
       <div className="products-list">
         {products.map((p) => {
           return (

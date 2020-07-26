@@ -2,13 +2,13 @@ import React, { useState, useEffect, FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Navigation.css";
 
-
 const Navigation: FC<any> = () => {
   const [linkClasses, setLinkClasses] = useState<string[]>([]);
-  let location =useLocation();
+  let location = useLocation();
   useEffect(() => {
     const initialClasses = [
       "nav-item ",
+      "nav-item",
       "nav-item",
       "nav-item",
       "nav-item",
@@ -52,6 +52,11 @@ const Navigation: FC<any> = () => {
       }
       case "/ordershistory": {
         initialClasses[6] = initialClasses[6] + " active";
+        setLinkClasses(initialClasses);
+        break;
+      }
+      case "/addtogallery": {
+        initialClasses[8] = initialClasses[8] + " active";
         setLinkClasses(initialClasses);
         break;
       }
@@ -122,6 +127,15 @@ const Navigation: FC<any> = () => {
       <li className={linkClasses[6]}>
         <Link to="/ordershistory" className="nav-link">
           Order History
+        </Link>
+      </li>
+      <hr className="sidebar-divider" />
+
+      <div className="sidebar-heading mb-2">Gallerie</div>
+
+      <li className={linkClasses[8]}>
+        <Link to="/addtogallery" className="nav-link">
+        ajouter une image
         </Link>
       </li>
     </ul>

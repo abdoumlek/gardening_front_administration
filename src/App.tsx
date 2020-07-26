@@ -6,6 +6,8 @@ import {
   Redirect,
 } from "react-router-dom";
 
+import "react-toastify/dist/ReactToastify.css";
+
 import AfterAuthLoading from "./Components/LoadingScreen/AfterAuthLoading";
 import Login from "./Views/Auth/Login";
 import "./App.css";

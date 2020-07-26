@@ -1,4 +1,6 @@
 import React, { lazy, Suspense } from "react";
+import { ToastContainer } from "react-toastify";
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navigation from "../../Components/Navigation/Navigation";
 import Home from "../Home/Home";
@@ -8,6 +10,7 @@ import AddOrder from "../OrdersList/AddOrder";
 import OrdersHistory from "../OrdersList/OrdersHistory";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import ProductsList from "../Products/ProductsList";
+import AddGallery from "../Gallery/AddGallery";
 import "./AuthentifiedContent.css";
 const AddProduct = lazy(() => import("../Products/AddProduct"));
 const AddCategory = lazy(() => import("../Products/AddCategory"));
@@ -17,6 +20,7 @@ function AuthentifiedContent({ token }) {
     <Router>
       <Navigation />
       <div className="page-wrapper">
+        <ToastContainer />
         <Switch>
           <Route exact path="/">
             <Home />
@@ -48,6 +52,9 @@ function AuthentifiedContent({ token }) {
           </Route>
           <Route path="/ordershistory">
             <OrdersHistory token={token} />
+          </Route>
+          <Route path="/addtogallery">
+            <AddGallery token={token} />
           </Route>
         </Switch>
       </div>
