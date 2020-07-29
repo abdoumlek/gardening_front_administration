@@ -1,6 +1,14 @@
-.page-wrapper {
-  margin-left: 14rem;
-  padding: 1rem;
-  min-height: 100vh;
-  height: 100vh;
+@media (min-width: 992px) {
+  .page-wrapper {
+    margin-left: 14rem;
+    padding: 1rem;
+    min-height: 100vh;
+    height: 100vh;
+  }
+}
+
+@media (max-width: 991px) {
+  .page-wrapper {
+    margin-bottom: 80px;
+  }
 }

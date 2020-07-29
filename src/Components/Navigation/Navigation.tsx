@@ -69,7 +69,7 @@ const Navigation: FC<any> = () => {
   }, [location]);
 
   return (
-    <ul className="navigation-component navbar-nav bg-gradient-primary position-fixed sidebar ">
+    <ul className="navigation-component navbar-nav bg-gradient-primary position-fixed sidebar d-none d-lg-block">
       <Link to="/" className="nav-link">
         <div className="sidebar-brand-text">Plantes & Jardins Admin</div>
       </Link>

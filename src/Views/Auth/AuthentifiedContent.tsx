@@ -12,6 +12,7 @@ import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import ProductsList from "../Products/ProductsList";
 import AddGallery from "../Gallery/AddGallery";
 import "./AuthentifiedContent.css";
+import MobileNavigation from "../../Components/Navigation/MobileNavigation";
 const AddProduct = lazy(() => import("../Products/AddProduct"));
 const AddCategory = lazy(() => import("../Products/AddCategory"));
 
@@ -19,6 +20,7 @@ function AuthentifiedContent({ token }) {
   return (
     <Router>
       <Navigation />
+      <MobileNavigation />
       <div className="page-wrapper">
         <ToastContainer />
         <Switch>
