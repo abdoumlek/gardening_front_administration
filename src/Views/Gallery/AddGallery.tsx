@@ -15,7 +15,7 @@ const AddGallery = ({ token }) => {
   const PostImageToGallery = (name, description, imageUrl) => {
     axios
       .post(
-        "https://plantes-et-jardins-back.herokuapp.com/api/gallery",
+        "https://plantes-et-jardins-back.herokuapp.com/api/galleries",
         {
           name: name,
           description: description,
@@ -69,7 +69,7 @@ const AddGallery = ({ token }) => {
               publicKey="public_LV4KSYYDKUQ9OWZZM0ZIerfMH1s="
               urlEndpoint="https://ik.imagekit.io/cjvyejrxtm"
               transformationPosition="path"
-              authenticationEndpoint="https://plantes-et-jardins-back.herokuapp.com/api/products/upload"
+              authenticationEndpoint="https://plantes-et-jardins-back.herokuapp.com/api/galleries/upload"
             >
               <div className="custom-file mb-3">
                 <IKUpload
