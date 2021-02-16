@@ -27,35 +27,46 @@ function AuthentifiedContent({ token }) {
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/productslist">
+          <Route path="/products-list">
             <ProductsList token={token} />
           </Route>
-          <Route path="/addproduct">
+          <Route path="/add-product">
             <Suspense fallback={<LoadingScreen />}>
               <AddProduct token={token} />
             </Suspense>
           </Route>
-          <Route path="/addcategory">
+          <Route path="/categories-list">
             <Suspense fallback={<LoadingScreen />}>
               <AddCategory token={token} />
             </Suspense>
           </Route>
-          <Route path="/modifyproduct">
-            <AddProduct token={token} />
+          <Route path="/add-category">
+            <Suspense fallback={<LoadingScreen />}>
+              <AddCategory token={token} />
+            </Suspense>
           </Route>
-          <Route path="/productsorderslist">
-            <ProductsOrdersList token={token} />
+          <Route path="/products-orders-list">
+            <Suspense fallback={<LoadingScreen />}>
+              <ProductsOrdersList token={token} />
+            </Suspense>
           </Route>
-          <Route path="/gardensorderslist">
-            <GardensOrdersList token={token} />
+          <Route path="/modify-product">
+            <Suspense fallback={<LoadingScreen />}>
+              <AddProduct token={token} />
+            </Suspense>
           </Route>
-          <Route path="/addorder">
+          <Route path="/gardens-orders-list">
+            <Suspense fallback={<LoadingScreen />}>
+              <GardensOrdersList token={token} />
+            </Suspense>
+          </Route>
+          <Route path="/add-order">
             <AddOrder token={token} />
           </Route>
-          <Route path="/ordershistory">
-            <OrdersHistory token={token} />
+          <Route path="/add-gallery">
+            <AddGallery token={token} />
           </Route>
-          <Route path="/addtogallery">
+          <Route path="/gallery">
             <AddGallery token={token} />
           </Route>
         </Switch>

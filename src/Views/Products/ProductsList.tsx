@@ -3,6 +3,7 @@ import axios from "axios";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import "./ProductsList.css";
 import Product from "../../Components/Product/Product";
+import { Link } from "react-router-dom";
 const ProductsList: FC<any> = ({ token }) => {
   const [products, setProducts] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -37,7 +38,16 @@ const ProductsList: FC<any> = ({ token }) => {
 
   return (
     <div className="p-2">
-      <h1 className="text-center mb-5">Products List</h1>
+      <h1 className="text-center mb-5">Liste des produits</h1>
+      <div className="container">
+        <div className="row mb-3">
+          <div className="col">
+            <Link to="/add-product" className="btn btn-success float-right">
+              <span>+ ajouter un produit</span>
+            </Link>
+          </div>
+        </div>
+      </div>
       <div className="products-list">
         {products.map((p) => {
           return (

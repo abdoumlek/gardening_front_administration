@@ -1,6 +1,6 @@
 .mobile-navigation {
   color: white;
-  height: 70px;
+  height: 50px;
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -9,8 +9,9 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  z-index: 2;
+  z-index: 99;
   list-style-type: none;
+  font-size: 12px;
 }
 .mobile-navigation .navigation-item {
   flex: 1 1;

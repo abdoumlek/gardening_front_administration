@@ -20,42 +20,27 @@ const Navigation: FC<any> = () => {
     ];
     setLinkClasses(initialClasses);
     switch (location?.pathname) {
-      case "/productslist": {
+      case "/products-list": {
         initialClasses[1] = initialClasses[1] + " active";
         setLinkClasses(initialClasses);
         break;
       }
-      case "/addproduct": {
-        initialClasses[2] = initialClasses[2] + " active";
-        setLinkClasses(initialClasses);
-        break;
-      }
-      case "/productsorderslist": {
+      case "/products-orders-list": {
         initialClasses[3] = initialClasses[3] + " active";
         setLinkClasses(initialClasses);
         break;
       }
-      case "/addcategory": {
+      case "/categories-list": {
         initialClasses[7] = initialClasses[7] + " active";
         setLinkClasses(initialClasses);
         break;
       }
-      case "/gardensorderslist": {
+      case "/gardens-orders-list": {
         initialClasses[4] = initialClasses[4] + " active";
         setLinkClasses(initialClasses);
         break;
       }
-      case "/addorder": {
-        initialClasses[5] = initialClasses[5] + " active";
-        setLinkClasses(initialClasses);
-        break;
-      }
-      case "/ordershistory": {
-        initialClasses[6] = initialClasses[6] + " active";
-        setLinkClasses(initialClasses);
-        break;
-      }
-      case "/addtogallery": {
+      case "/gallery": {
         initialClasses[8] = initialClasses[8] + " active";
         setLinkClasses(initialClasses);
         break;
@@ -78,7 +63,7 @@ const Navigation: FC<any> = () => {
 
       <li className={linkClasses[0]}>
         <Link to="/" className="nav-link">
-          Dashboard
+          Accueil
         </Link>
       </li>
 
@@ -87,55 +72,40 @@ const Navigation: FC<any> = () => {
       <div className="sidebar-heading mb-2">Produits</div>
 
       <li className={linkClasses[1]}>
-        <Link to="/productslist" className="nav-link">
-          productsList
-        </Link>
-      </li>
-
-      <li className={linkClasses[2]}>
-        <Link to="/addproduct" className="nav-link">
-          AddProudct
+        <Link to="/products-list" className="nav-link">
+          Liste des produits
         </Link>
       </li>
 
       <li className={linkClasses[7]}>
-        <Link to="/addcategory" className="nav-link">
-          add category
+        <Link to="/categories-list" className="nav-link">
+          Liste des categories
         </Link>
       </li>
 
       <hr className="sidebar-divider" />
 
-      <div className="sidebar-heading mb-2">Orders</div>
+      <div className="sidebar-heading mb-2">Commandes et demandes</div>
 
       <li className={linkClasses[3]}>
-        <Link to="/productsorderslist" className="nav-link">
-          products orders List
+        <Link to="/products-orders-list" className="nav-link">
+          Liste des commandes
         </Link>
       </li>
 
       <li className={linkClasses[4]}>
-        <Link to="/gardensorderslist" className="nav-link">
-          gardens orders List
+        <Link to="/gardens-orders-list" className="nav-link">
+          Liste des demandes
         </Link>
       </li>
-      <li className={linkClasses[5]}>
-        <Link to="/addorder" className="nav-link">
-          Add new Order
-        </Link>
-      </li>
-      <li className={linkClasses[6]}>
-        <Link to="/ordershistory" className="nav-link">
-          Order History
-        </Link>
-      </li>
+
       <hr className="sidebar-divider" />
 
-      <div className="sidebar-heading mb-2">Gallerie</div>
+      <div className="sidebar-heading mb-2">Galerie</div>
 
       <li className={linkClasses[8]}>
-        <Link to="/addtogallery" className="nav-link">
-        ajouter une image
+        <Link to="/gallery" className="nav-link">
+        Galerie
         </Link>
       </li>
     </ul>

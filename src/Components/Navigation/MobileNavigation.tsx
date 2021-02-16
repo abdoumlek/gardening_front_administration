@@ -10,8 +10,8 @@ export default function MobileNavigation() {
         <Link to="/gallery" className="nav-link">
         <img
             className="icon"
-            height={30}
-            width={30}
+            height={20}
+            width={20}
             src="/image.png"
             alt="gallerie"
           />
@@ -19,11 +19,11 @@ export default function MobileNavigation() {
         </Link>
       </li>
       <li className="navigation-item">
-        <Link to="/products" className="nav-link">
+        <Link to="/products-list" className="nav-link">
           <img
             className="icon"
-            height={30}
-            width={30}
+            height={20}
+            width={20}
             src="/plant-pot.png"
             alt="produits"
           />
@@ -31,11 +31,11 @@ export default function MobileNavigation() {
         </Link>
       </li>
       <li className="navigation-item">
-        <Link to="/orders" className="nav-link">
+        <Link to="/products-orders-list" className="nav-link">
           <img
             className="icon"
-            height={30}
-            width={30}
+            height={20}
+            width={20}
             src="/clipboard.png"
             alt="commandes"
           />
