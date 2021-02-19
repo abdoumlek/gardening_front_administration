@@ -3,11 +3,11 @@ import axios from "axios";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import "./ProductsList.css";
 import Product from "../../Components/Product/Product";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 const ProductsList: FC<any> = ({ token }) => {
   const [products, setProducts] = useState<any>([]);
-  const [dispalyedProduct, setDispalyedProduct] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const history = useHistory();
   useEffect(() => {
     const getProducts = () => {
       setLoading(true);
@@ -32,22 +32,7 @@ const ProductsList: FC<any> = ({ token }) => {
   console.log(products);
 
   const openProduct = (product) => {
-    setLoading(true);
-    axios
-      .get(
-        "https://plantes-et-jardins-back.herokuapp.com/api/products/admin/" +
-          product.id,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
-      .then((response) => {
-        setDispalyedProduct(response.data);
-        setLoading(false);
-      })
-      .catch((e) => console.error(e));
+    history.push("/add-product/" + product.id);
   };
 
   if (loading) {

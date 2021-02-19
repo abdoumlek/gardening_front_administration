@@ -1,12 +1,45 @@
 import React, { FC, useState, useEffect } from "react";
 import { IKContext, IKUpload } from "imagekitio-react";
+import { useLocation, useHistory } from "react-router-dom";
 import axios from "axios";
 import ImageLoading from "../../Components/ImageLoading/ImageLoading";
 
 import { toast } from "react-toastify";
+import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 
 const AddProduct: FC<any> = ({ token }) => {
   const [categories, setCategories] = useState<any>([]);
+  const [currentProduct, setCurrentProduct] = useState<any>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const location = useLocation();
+  const history = useHistory();
+
+  useEffect(() => {
+    let productId = "";
+    const loadProduct = (productId, token) => {
+      setLoading(true);
+      axios
+        .get(
+          "https://plantes-et-jardins-back.herokuapp.com/api/products/admin/" +
+            productId,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((response) => {
+          setCurrentProduct(response.data);
+          setLoading(false);
+        })
+        .catch((e) => console.error(e));
+    };
+    if (location.pathname.includes("/add-product/")) {
+      productId = location.pathname.split("/add-product/")[1];
+    }
+    if (productId.length && token.length) loadProduct(productId, token);
+  }, [location, token]);
+
   useEffect(() => {
     const getCategories = () => {
       axios
@@ -18,7 +51,11 @@ const AddProduct: FC<any> = ({ token }) => {
         .then((response) => {
           setCategories(response.data);
         })
-        .catch((e) => toast.error("une erreur c'est produite lors de la récupération de la liste des catégories"));
+        .catch((e) =>
+          toast.error(
+            "une erreur c'est produite lors de la récupération de la liste des catégories"
+          )
+        );
     };
     getCategories();
   }, [token]);
@@ -63,20 +100,85 @@ const AddProduct: FC<any> = ({ token }) => {
           },
         }
       )
-      .then((response) => toast.success("Produit ajouté avec Succés"))
+      .then((response) => {
+        toast.success("Produit ajouté avec Succés");
+        history.push("/products-list");
+      })
       .catch((e) => toast.error("une erreur c'est produite lors de l'ajout"));
   };
+  const updateProduct = (
+    name,
+    description,
+    category,
+    imageUrl,
+    sellingPrice,
+    buyingPrice,
+    quantity,
+    discount
+  ) => {
+    axios
+      .put(
+        "https://plantes-et-jardins-back.herokuapp.com/api/products",
+        {
+          name: name,
+          description: description,
+          category_id: category,
+          photo: imageUrl,
+          selling_price: sellingPrice,
+          buying_price: buyingPrice,
+          quantity: quantity,
+          discount: discount,
+          id: currentProduct ?? currentProduct.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        history.push("/products-list");
+        toast.success("Produit modifié avec Succés");
+      })
+      .catch((e) =>
+        toast.error("une erreur c'est produite lors de la modification")
+      );
+  };
+  const deleteProduct = (id) => {
+    axios
+      .delete(
+        "https://plantes-et-jardins-back.herokuapp.com/api/products/" + id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        history.push("/products-list");
+        toast.success("Produit supprimé avec Succés");
+      })
+      .catch((e) =>
+        toast.error("une erreur c'est produite lors de la suppression")
+      );
+  };
+
+  if (loading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div>
-      <h1 className="text-center mb-5">Ajouter un produit</h1>
+      <h1 className="text-center mb-5">
+        {currentProduct ? "Modifier un produit" : "Ajouter un produit"}{" "}
+      </h1>
       <div className="container">
         <div className="row">
           <div className="col-12 col-lg-6">
             <label>Nom du produit</label>
             <div className="input-group mb-3">
               <input
-                value={name}
+                value={currentProduct ? currentProduct.name : name}
                 onChange={(htmlElement) => setName(htmlElement.target.value)}
                 placeholder="Nom du produit"
                 type="text"
@@ -90,7 +192,9 @@ const AddProduct: FC<any> = ({ token }) => {
             <div className="input-group mb-3">
               <textarea
                 rows={5}
-                value={description}
+                value={
+                  currentProduct ? currentProduct.description : description
+                }
                 onChange={(htmlElement) =>
                   setDescription(htmlElement.target.value)
                 }
@@ -102,7 +206,7 @@ const AddProduct: FC<any> = ({ token }) => {
             <label>Category du produit</label>
 
             <select
-              value={category}
+              value={currentProduct ? currentProduct.category_id : category}
               onChange={(htmlElement) =>
                 setCategory(parseInt(htmlElement.target.value))
               }
@@ -141,7 +245,7 @@ const AddProduct: FC<any> = ({ token }) => {
                 alt="image ajouté"
                 height={300}
                 width={300}
-                imageUrl={imageUrl}
+                imageUrl={currentProduct ? currentProduct.photo : imageUrl}
               />
             </div>
           </div>
@@ -152,7 +256,9 @@ const AddProduct: FC<any> = ({ token }) => {
 
             <div className="input-group mb-3">
               <input
-                value={sellingPrice}
+                value={
+                  currentProduct ? currentProduct.selling_price : sellingPrice
+                }
                 onChange={(htmlElement) =>
                   setSellingPrice(parseFloat(htmlElement.target.value))
                 }
@@ -167,7 +273,9 @@ const AddProduct: FC<any> = ({ token }) => {
 
             <div className="input-group mb-3">
               <input
-                value={buyingPrice}
+                value={
+                  currentProduct ? currentProduct.buying_price : buyingPrice
+                }
                 onChange={(htmlElement) =>
                   setBuyingPrice(parseFloat(htmlElement.target.value))
                 }
@@ -182,7 +290,7 @@ const AddProduct: FC<any> = ({ token }) => {
 
             <div className="input-group mb-3">
               <input
-                value={quantity}
+                value={currentProduct ? currentProduct.quantity : quantity}
                 onChange={(htmlElement) =>
                   setQuantity(parseInt(htmlElement.target.value))
                 }
@@ -196,36 +304,84 @@ const AddProduct: FC<any> = ({ token }) => {
             <label>Remise pour ce produit</label>
 
             <div className="input-group mb-3">
-              <input
-                value={discount}
+              <select
+                value={currentProduct ? currentProduct.discount : discount}
                 onChange={(htmlElement) =>
                   setDiscount(parseFloat(htmlElement.target.value))
                 }
-                placeholder="Remise"
-                type="number"
-                className="form-control"
-                aria-label="Default"
-                aria-describedby="inputGroup-sizing-default"
-              />
+                className="custom-select custom-select-lg mb-3"
+              >
+                <option key="0" value="0">
+                  0%
+                </option>
+                <option key="0.05" value="0.05">
+                  5%
+                </option>
+                <option key="0.1" value="0.1">
+                  10%
+                </option>
+                <option key="0.15" value="0.15">
+                  15%
+                </option>
+                <option key="0.2" value="0.2">
+                  20%
+                </option>
+                <option key="0.25" value="0.25">
+                  25%
+                </option>
+                <option key="0.3" value="0.3">
+                  30%
+                </option>
+                <option key="0.35" value="0.35">
+                  35%
+                </option>
+                <option key="0.4" value="0.4">
+                  40%
+                </option>
+                <option key="0.45" value="0.45">
+                  45%
+                </option>
+                <option key="0.5" value="0.5">
+                  50%
+                </option>
+              </select>
             </div>
             <div className="text-center mb-5">
               <button
                 type="button"
-                onClick={() =>
-                  postProduct(
-                    name,
-                    description,
-                    category,
-                    imageUrl,
-                    sellingPrice,
-                    buyingPrice,
-                    quantity,
-                    discount
-                  )
-                }
-                className="btn btn-success"
+                onClick={() => {
+                  currentProduct
+                    ? updateProduct(
+                        name,
+                        description,
+                        category,
+                        imageUrl,
+                        sellingPrice,
+                        buyingPrice,
+                        quantity,
+                        discount
+                      )
+                    : postProduct(
+                        name,
+                        description,
+                        category,
+                        imageUrl,
+                        sellingPrice,
+                        buyingPrice,
+                        quantity,
+                        discount
+                      );
+                }}
+                className="btn m-2 btn-success"
               >
-                Ajouter le produit
+                {currentProduct ? "Modifier un produit" : "Ajouter un produit"}
+              </button>
+              <button
+                type="button"
+                onClick={() => deleteProduct(currentProduct.id)}
+                className="btn m-2 btn-danger"
+              >
+                Supprimer un produit
               </button>
             </div>
           </div>
