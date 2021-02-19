@@ -45,7 +45,7 @@ function AuthentifiedContent({ token }) {
               <AddCategory token={token} />
             </Suspense>
           </Route>
-          <Route path="/products-orders-list">
+          <Route path="/messages-list">
             <Suspense fallback={<LoadingScreen />}>
               <ProductsOrdersList token={token} />
             </Suspense>
@@ -53,11 +53,6 @@ function AuthentifiedContent({ token }) {
           <Route path="/modify-product">
             <Suspense fallback={<LoadingScreen />}>
               <AddProduct token={token} />
-            </Suspense>
-          </Route>
-          <Route path="/gardens-orders-list">
-            <Suspense fallback={<LoadingScreen />}>
-              <GardensOrdersList token={token} />
             </Suspense>
           </Route>
           <Route path="/add-order">

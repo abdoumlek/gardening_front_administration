@@ -6,6 +6,7 @@ import Product from "../../Components/Product/Product";
 import { Link } from "react-router-dom";
 const ProductsList: FC<any> = ({ token }) => {
   const [products, setProducts] = useState<any>([]);
+  const [dispalyedProduct, setDispalyedProduct] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     const getProducts = () => {
@@ -28,8 +29,25 @@ const ProductsList: FC<any> = ({ token }) => {
     getProducts();
   }, [token]);
 
+  console.log(products);
+
   const openProduct = (product) => {
-    console.log(product);
+    setLoading(true);
+    axios
+      .get(
+        "https://plantes-et-jardins-back.herokuapp.com/api/products/admin/" +
+          product.id,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        setDispalyedProduct(response.data);
+        setLoading(false);
+      })
+      .catch((e) => console.error(e));
   };
 
   if (loading) {

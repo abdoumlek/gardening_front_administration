@@ -24,3 +24,8 @@
     margin-bottom: 15px;
   }
 }
+
+.min-width-button{
+  min-width: 90px;
+  display: inline-block
+}

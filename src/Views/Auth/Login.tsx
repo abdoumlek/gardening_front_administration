@@ -9,8 +9,10 @@ type loginParams = {
 const Login: FC<loginParams> = ({ loginSuccess }) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const history = useHistory();
   const attemptLogin = (email, password) => {
+    setLoading(true);
     axios
       .post("https://plantes-et-jardins-back.herokuapp.com/api/users/login", {
         email: email,
@@ -20,7 +22,10 @@ const Login: FC<loginParams> = ({ loginSuccess }) => {
         loginSuccess(response.data);
         history.push({ pathname: "/" });
       })
-      .catch((e) => console.error(e));
+      .catch((e) => console.error(e))
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   return (
@@ -58,13 +63,22 @@ const Login: FC<loginParams> = ({ loginSuccess }) => {
               />
             </div>
             <div className="w-100 text-center mt-5">
-            <button
-              type="button"
-              onClick={() => attemptLogin(email, password)}
-              className="btn btn-success"
-            >
-              Se connecter
-            </button>
+              <button
+                type="button"
+                onClick={() => attemptLogin(email, password)}
+                className="btn btn-success"
+              >
+                {loading && (
+                  <span className="min-width-button">
+                    <span
+                      className="spinner-border spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                  </span>
+                )}
+                {!loading && <span>Se connecter</span>}
+              </button>
             </div>
           </div>
         </div>

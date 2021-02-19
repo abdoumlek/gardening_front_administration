@@ -25,17 +25,12 @@ const Navigation: FC<any> = () => {
         setLinkClasses(initialClasses);
         break;
       }
-      case "/products-orders-list": {
-        initialClasses[3] = initialClasses[3] + " active";
-        setLinkClasses(initialClasses);
-        break;
-      }
       case "/categories-list": {
         initialClasses[7] = initialClasses[7] + " active";
         setLinkClasses(initialClasses);
         break;
       }
-      case "/gardens-orders-list": {
+      case "/messages-list": {
         initialClasses[4] = initialClasses[4] + " active";
         setLinkClasses(initialClasses);
         break;
@@ -87,14 +82,8 @@ const Navigation: FC<any> = () => {
 
       <div className="sidebar-heading mb-2">Commandes et demandes</div>
 
-      <li className={linkClasses[3]}>
-        <Link to="/products-orders-list" className="nav-link">
-          Liste des commandes
-        </Link>
-      </li>
-
       <li className={linkClasses[4]}>
-        <Link to="/gardens-orders-list" className="nav-link">
+        <Link to="/messages-list" className="nav-link">
           Liste des demandes
         </Link>
       </li>

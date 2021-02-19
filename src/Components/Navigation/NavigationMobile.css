@@ -25,3 +25,8 @@
 .mobile-navigation .icon svg {
   stroke: white;
 }
+
+.navigation-active{
+  color:#ffce5f;
+  font-weight: bold;
+}
