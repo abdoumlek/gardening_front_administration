@@ -63,13 +63,15 @@ const AddProduct: FC<any> = ({ token }) => {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [category, setCategory] = useState<number>(1);
+  const [actionLoading, setActionLoading] = useState<boolean>(false);
+  const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>(
     "/Pas_d_image_disponible_RgDT7_k2u.svg"
   );
   const [sellingPrice, setSellingPrice] = useState<number>(0);
   const [buyingPrice, setBuyingPrice] = useState<number>(0);
   const [quantity, setQuantity] = useState<number>(0);
-  const [discount, setDiscount] = useState<number>(0);
+  const [discount, setDiscount] = useState<string>("0.00");
 
   useEffect(() => {
     if (currentProduct) {
@@ -94,6 +96,7 @@ const AddProduct: FC<any> = ({ token }) => {
     quantity,
     discount
   ) => {
+    setActionLoading(true);
     axios
       .post(
         "https://plantes-et-jardins-back.herokuapp.com/api/products",
@@ -105,7 +108,7 @@ const AddProduct: FC<any> = ({ token }) => {
           selling_price: sellingPrice,
           buying_price: buyingPrice,
           quantity: quantity,
-          discount: discount,
+          discount: parseFloat(discount),
         },
         {
           headers: {
@@ -117,7 +120,8 @@ const AddProduct: FC<any> = ({ token }) => {
         toast.success("Produit ajouté avec Succés");
         history.push("/products-list");
       })
-      .catch((e) => toast.error("une erreur c'est produite lors de l'ajout"));
+      .catch((e) => toast.error("une erreur c'est produite lors de l'ajout"))
+      .finally(() => setActionLoading(false));
   };
   const updateProduct = (
     name,
@@ -129,6 +133,7 @@ const AddProduct: FC<any> = ({ token }) => {
     quantity,
     discount
   ) => {
+    setActionLoading(true);
     axios
       .put(
         "https://plantes-et-jardins-back.herokuapp.com/api/products",
@@ -140,7 +145,7 @@ const AddProduct: FC<any> = ({ token }) => {
           selling_price: sellingPrice,
           buying_price: buyingPrice,
           quantity: quantity,
-          discount: discount,
+          discount: parseFloat(discount),
           id: currentProduct ? currentProduct.id : null,
         },
         {
@@ -155,9 +160,11 @@ const AddProduct: FC<any> = ({ token }) => {
       })
       .catch((e) =>
         toast.error("une erreur c'est produite lors de la modification")
-      );
+      )
+      .finally(() => setActionLoading(false));
   };
   const deleteProduct = (id) => {
+    setDeleteLoading(true);
     axios
       .delete(
         "https://plantes-et-jardins-back.herokuapp.com/api/products/" + id,
@@ -173,7 +180,8 @@ const AddProduct: FC<any> = ({ token }) => {
       })
       .catch((e) =>
         toast.error("une erreur c'est produite lors de la suppression")
-      );
+      )
+      .finally(() => setDeleteLoading(false));
   };
 
   if (loading) {
@@ -314,7 +322,7 @@ const AddProduct: FC<any> = ({ token }) => {
               <select
                 value={discount}
                 onChange={(htmlElement) =>
-                  setDiscount(parseFloat(htmlElement.target.value))
+                  setDiscount(htmlElement.target.value)
                 }
                 className="custom-select custom-select-lg mb-3"
               >
@@ -381,15 +389,41 @@ const AddProduct: FC<any> = ({ token }) => {
                 }}
                 className="btn m-2 btn-success"
               >
-                {currentProduct ? "Modifier un produit" : "Ajouter un produit"}
+                {actionLoading && (
+                  <span className="min-width-140">
+                    <span
+                      className="spinner-border spinner-border-sm"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                  </span>
+                )}
+                {!actionLoading && (
+                  <span>
+                    {currentProduct
+                      ? "Modifier un produit"
+                      : "Ajouter un produit"}
+                  </span>
+                )}
               </button>
-              <button
-                type="button"
-                onClick={() => deleteProduct(currentProduct.id)}
-                className="btn m-2 btn-danger"
-              >
-                Supprimer un produit
-              </button>
+              {currentProduct && (
+                <button
+                  type="button"
+                  onClick={() => deleteProduct(currentProduct.id)}
+                  className="btn m-2 btn-danger"
+                >
+                  {deleteLoading && (
+                    <span className="min-width-155">
+                      <span
+                        className="spinner-border spinner-border-sm"
+                        role="status"
+                        aria-hidden="true"
+                      ></span>
+                    </span>
+                  )}
+                  {!deleteLoading && <span>Supprimer un produit</span>}
+                </button>
+              )}
             </div>
           </div>
         </div>
