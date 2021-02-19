@@ -71,6 +71,19 @@ const AddProduct: FC<any> = ({ token }) => {
   const [quantity, setQuantity] = useState<number>(0);
   const [discount, setDiscount] = useState<number>(0);
 
+  useEffect(() => {
+    if (currentProduct) {
+      setName(currentProduct.name);
+      setDescription(currentProduct.description);
+      setCategory(currentProduct.category_id);
+      setImageUrl(currentProduct.photo);
+      setSellingPrice(currentProduct.selling_price);
+      setBuyingPrice(currentProduct.buying_price);
+      setQuantity(currentProduct.quantity);
+      setDiscount(currentProduct.discount);
+    }
+  }, [currentProduct]);
+
   const postProduct = (
     name,
     description,
@@ -128,7 +141,7 @@ const AddProduct: FC<any> = ({ token }) => {
           buying_price: buyingPrice,
           quantity: quantity,
           discount: discount,
-          id: currentProduct ?? currentProduct.id,
+          id: currentProduct ? currentProduct.id : null,
         },
         {
           headers: {
@@ -178,7 +191,7 @@ const AddProduct: FC<any> = ({ token }) => {
             <label>Nom du produit</label>
             <div className="input-group mb-3">
               <input
-                value={currentProduct ? currentProduct.name : name}
+                value={name}
                 onChange={(htmlElement) => setName(htmlElement.target.value)}
                 placeholder="Nom du produit"
                 type="text"
@@ -192,9 +205,7 @@ const AddProduct: FC<any> = ({ token }) => {
             <div className="input-group mb-3">
               <textarea
                 rows={5}
-                value={
-                  currentProduct ? currentProduct.description : description
-                }
+                value={description}
                 onChange={(htmlElement) =>
                   setDescription(htmlElement.target.value)
                 }
@@ -206,7 +217,7 @@ const AddProduct: FC<any> = ({ token }) => {
             <label>Category du produit</label>
 
             <select
-              value={currentProduct ? currentProduct.category_id : category}
+              value={category}
               onChange={(htmlElement) =>
                 setCategory(parseInt(htmlElement.target.value))
               }
@@ -245,7 +256,7 @@ const AddProduct: FC<any> = ({ token }) => {
                 alt="image ajouté"
                 height={300}
                 width={300}
-                imageUrl={currentProduct ? currentProduct.photo : imageUrl}
+                imageUrl={imageUrl}
               />
             </div>
           </div>
@@ -256,9 +267,7 @@ const AddProduct: FC<any> = ({ token }) => {
 
             <div className="input-group mb-3">
               <input
-                value={
-                  currentProduct ? currentProduct.selling_price : sellingPrice
-                }
+                value={sellingPrice}
                 onChange={(htmlElement) =>
                   setSellingPrice(parseFloat(htmlElement.target.value))
                 }
@@ -273,9 +282,7 @@ const AddProduct: FC<any> = ({ token }) => {
 
             <div className="input-group mb-3">
               <input
-                value={
-                  currentProduct ? currentProduct.buying_price : buyingPrice
-                }
+                value={buyingPrice}
                 onChange={(htmlElement) =>
                   setBuyingPrice(parseFloat(htmlElement.target.value))
                 }
@@ -290,7 +297,7 @@ const AddProduct: FC<any> = ({ token }) => {
 
             <div className="input-group mb-3">
               <input
-                value={currentProduct ? currentProduct.quantity : quantity}
+                value={quantity}
                 onChange={(htmlElement) =>
                   setQuantity(parseInt(htmlElement.target.value))
                 }
@@ -305,43 +312,43 @@ const AddProduct: FC<any> = ({ token }) => {
 
             <div className="input-group mb-3">
               <select
-                value={currentProduct ? currentProduct.discount : discount}
+                value={discount}
                 onChange={(htmlElement) =>
                   setDiscount(parseFloat(htmlElement.target.value))
                 }
                 className="custom-select custom-select-lg mb-3"
               >
-                <option key="0" value="0">
+                <option key="0.00" value="0.00">
                   0%
                 </option>
                 <option key="0.05" value="0.05">
                   5%
                 </option>
-                <option key="0.1" value="0.1">
+                <option key="0.10" value="0.10">
                   10%
                 </option>
                 <option key="0.15" value="0.15">
                   15%
                 </option>
-                <option key="0.2" value="0.2">
+                <option key="0.20" value="0.20">
                   20%
                 </option>
                 <option key="0.25" value="0.25">
                   25%
                 </option>
-                <option key="0.3" value="0.3">
+                <option key="0.30" value="0.30">
                   30%
                 </option>
                 <option key="0.35" value="0.35">
                   35%
                 </option>
-                <option key="0.4" value="0.4">
+                <option key="0.40" value="0.40">
                   40%
                 </option>
                 <option key="0.45" value="0.45">
                   45%
                 </option>
-                <option key="0.5" value="0.5">
+                <option key="0.50" value="0.50">
                   50%
                 </option>
               </select>
