@@ -24,12 +24,14 @@ const ProductsList: FC<any> = ({ token }) => {
           setProducts(response.data);
           setLoading(false);
         })
-        .catch((e) => console.error(e));
+        .catch((e) => {
+          console.error(e);
+          setLoading(false);
+        });
     };
     getProducts();
   }, [token]);
 
-  console.log(products);
 
   const openProduct = (product) => {
     history.push("/add-product/" + product.id);

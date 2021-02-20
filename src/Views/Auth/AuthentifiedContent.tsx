@@ -4,15 +4,18 @@ import { ToastContainer } from "react-toastify";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navigation from "../../Components/Navigation/Navigation";
 import Home from "../Home/Home";
-import ProductsOrdersList from "../OrdersList/ProductsOrdersList";
-import AddOrder from "../OrdersList/AddOrder";
+import MessagesList from "../OrdersList/MessagesList";
+import MessageDetails from "../OrdersList/MessageDetails";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import ProductsList from "../Products/ProductsList";
 import AddGallery from "../Gallery/AddGallery";
 import "./AuthentifiedContent.css";
 import MobileNavigation from "../../Components/Navigation/MobileNavigation";
+import OrderDetails from "../OrdersList/OrderDetails";
+import GalleryList from "../Gallery/GalleryList";
+import CategoryList from "../Category/CategroyList";
 const AddProduct = lazy(() => import("../Products/AddProduct"));
-const AddCategory = lazy(() => import("../Products/AddCategory"));
+const AddCategory = lazy(() => import("../Category/AddCategory"));
 
 function AuthentifiedContent({ token }) {
   return (
@@ -23,7 +26,7 @@ function AuthentifiedContent({ token }) {
         <ToastContainer />
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Home  token={token} />
           </Route>
           <Route path="/products-list">
             <ProductsList token={token} />
@@ -35,7 +38,7 @@ function AuthentifiedContent({ token }) {
           </Route>
           <Route path="/categories-list">
             <Suspense fallback={<LoadingScreen />}>
-              <AddCategory token={token} />
+              <CategoryList token={token} />
             </Suspense>
           </Route>
           <Route path="/add-category">
@@ -45,7 +48,7 @@ function AuthentifiedContent({ token }) {
           </Route>
           <Route path="/messages-list">
             <Suspense fallback={<LoadingScreen />}>
-              <ProductsOrdersList token={token} />
+              <MessagesList token={token} />
             </Suspense>
           </Route>
           <Route path="/modify-product">
@@ -53,11 +56,17 @@ function AuthentifiedContent({ token }) {
               <AddProduct token={token} />
             </Suspense>
           </Route>
-          <Route path="/add-order">
-            <AddOrder token={token} />
+          <Route path="/message-details">
+            <MessageDetails token={token} />
+          </Route>
+          <Route path="/order-details">
+            <OrderDetails token={token} />
           </Route>
           <Route path="/add-gallery">
             <AddGallery token={token} />
+          </Route>
+          <Route path="/gallery">
+            <GalleryList token={token} />
           </Route>
           <Route path="/gallery">
             <AddGallery token={token} />
