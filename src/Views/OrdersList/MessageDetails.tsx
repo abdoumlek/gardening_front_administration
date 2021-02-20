@@ -36,7 +36,6 @@ export default function OrderDetails({ token }) {
     }
     if (messageId.length && token.length) loadMessage(messageId, token);
   }, [location, token]);
-  console.log(currentMessage);
   if (loading) return <LoadingScreen></LoadingScreen>;
   return (
     <div className="container">

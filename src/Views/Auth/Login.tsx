@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import "./Login.css";
 import axios from "axios";
 import { useHistory } from "react-router";
@@ -7,9 +7,22 @@ type loginParams = {
   loginSuccess: (any) => void;
 };
 const Login: FC<loginParams> = ({ loginSuccess }) => {
+  useEffect(() => {
+    setToken(sessionStorage.getItem("token"));
+  }, []);
+
   const [email, setEmail] = useState<string>("");
+  const [token, setToken] = useState<string | null>(null);
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (token) {
+      loginSuccess({ access_token: token });
+      history.push({ pathname: "/" });
+    }
+  }, [token]);
+
   const history = useHistory();
   const attemptLogin = (email, password) => {
     setLoading(true);
@@ -20,6 +33,7 @@ const Login: FC<loginParams> = ({ loginSuccess }) => {
       })
       .then((response) => {
         loginSuccess(response.data);
+        sessionStorage.setItem("token", response.data.access_token);
         history.push({ pathname: "/" });
       })
       .catch((e) => console.error(e))

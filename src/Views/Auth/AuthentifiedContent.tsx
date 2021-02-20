@@ -1,7 +1,7 @@
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, useHistory } from "react-router-dom";
 import Navigation from "../../Components/Navigation/Navigation";
 import Home from "../Home/Home";
 import MessagesList from "../OrdersList/MessagesList";
@@ -14,10 +14,24 @@ import MobileNavigation from "../../Components/Navigation/MobileNavigation";
 import OrderDetails from "../OrdersList/OrderDetails";
 import GalleryList from "../Gallery/GalleryList";
 import CategoryList from "../Category/CategroyList";
+import axios from "axios";
 const AddProduct = lazy(() => import("../Products/AddProduct"));
 const AddCategory = lazy(() => import("../Category/AddCategory"));
 
 function AuthentifiedContent({ token }) {
+
+  const history = useHistory();
+
+  axios.interceptors.response.use(
+    function(successRes) {
+      return successRes;
+    }, 
+    function(error) {
+      sessionStorage.removeItem('token');
+      history.push("/login");
+      return Promise.reject(error);
+    }
+  );
   return (
     <Router>
       <Navigation />

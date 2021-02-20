@@ -52,7 +52,6 @@ const MessagesList: FC<any> = ({ token }) => {
   }, [token]);
 
   const openOrder = (id) => {
-    console.log(id);
     history.push("/order-details/" + id);
   };
   const openMessage = (id) => {
