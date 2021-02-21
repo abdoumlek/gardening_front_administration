@@ -1,8 +1,9 @@
 import React, { FC, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-
+import { useHistory } from "react-router-dom";
 const AddProduct: FC<any> = ({ token }) => {
+  const history = useHistory();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const postCategory = (name, description) => {
@@ -21,6 +22,7 @@ const AddProduct: FC<any> = ({ token }) => {
       )
       .then((response) => {
         toast.success("Catégorie ajoutée avec Succés");
+        history.push("/categories-list");
       })
       .catch((e) => toast.error("une erreur c'est produite lors de l'ajout"));
   };
