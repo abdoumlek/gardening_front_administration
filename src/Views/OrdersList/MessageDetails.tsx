@@ -1,11 +1,13 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 
 export default function OrderDetails({ token }) {
   const location = useLocation();
+  const history = useHistory();
   const [loading, setLoading] = useState<boolean>(false);
+  const [updateLoading, setUpdateLoading] = useState<boolean>(false);
   const [currentMessage, setCurrentMessage] = useState<any>(null);
 
   useEffect(() => {
@@ -36,6 +38,32 @@ export default function OrderDetails({ token }) {
     }
     if (messageId.length && token.length) loadMessage(messageId, token);
   }, [location, token]);
+
+  const updateMessage = () => {
+    setUpdateLoading(true);
+    axios
+      .put(
+        "https://plantes-et-jardins-back.herokuapp.com/api/messages",
+        {
+          id: currentMessage.id,
+          status: "resolved",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        setUpdateLoading(false);
+        history.push("/messages-list");
+      })
+      .catch((e) => {
+        console.error(e);
+        setUpdateLoading(false);
+      });
+  };
+
   if (loading) return <LoadingScreen></LoadingScreen>;
   return (
     <div className="container">
@@ -70,6 +98,13 @@ export default function OrderDetails({ token }) {
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+      <div className="row">
+        <div className="col text-center">
+          <button onClick={updateMessage} className="btn btn-success">
+            Traiter la demande
+          </button>
         </div>
       </div>
     </div>
