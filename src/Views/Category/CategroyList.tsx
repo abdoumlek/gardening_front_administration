@@ -2,7 +2,6 @@ import React, { FC, useState, useEffect } from "react";
 import axios from "axios";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import { Link } from "react-router-dom";
-import ImageLoading from "../../Components/ImageLoading/ImageLoading";
 import { toast } from "react-toastify";
 
 const CategoryList: FC<any> = ({ token }) => {

@@ -11,7 +11,6 @@ const MessagesList: FC<any> = ({ token }) => {
   const [messages, setMessages] = useState<any>([]);
   const history = useHistory();
 
-
   useEffect(() => {
     const getOrders = () => {
       setOrdersLoading(true);
@@ -22,7 +21,12 @@ const MessagesList: FC<any> = ({ token }) => {
           },
         })
         .then((response) => {
-          setOrders(response.data);
+          setOrders(
+            response.data.filter((o) => {
+              return o.status === "new";
+              // && o.updated_date.includes(new Date().toISOString())
+            })
+          );
           setOrdersLoading(false);
         })
         .catch((e) => {
@@ -39,7 +43,12 @@ const MessagesList: FC<any> = ({ token }) => {
           },
         })
         .then((response) => {
-          setMessages(response.data);
+          setMessages(
+            response.data.filter((o) => {
+              return o.status === "new";
+              // && o.updated_date.includes(new Date().toISOString())
+            })
+          );
           setMessagesLoading(false);
         })
         .catch((e) => {
@@ -74,7 +83,6 @@ const MessagesList: FC<any> = ({ token }) => {
                   <th>Sujet de la demande</th>
                   <th>Nom du client</th>
                   <th>Numéro du client</th>
-                  <th>Status de la demande</th>
                 </tr>
               </thead>
               <tbody>
@@ -89,7 +97,6 @@ const MessagesList: FC<any> = ({ token }) => {
                       <td>{msg.subject}</td>
                       <td>{msg.firstName}</td>
                       <td>{msg.phoneNumber}</td>
-                      <td>{msg.status}</td>
                     </tr>
                   );
                 })}
@@ -108,7 +115,6 @@ const MessagesList: FC<any> = ({ token }) => {
                   <th>Nom du client</th>
                   <th>Numéro du client</th>
                   <th>Adresse du client</th>
-                  <th>Status de la commande</th>
                 </tr>
               </thead>
               <tbody>
@@ -123,7 +129,6 @@ const MessagesList: FC<any> = ({ token }) => {
                       <td>{order.name}</td>
                       <td>{order.phoneNumber}</td>
                       <td>{order.address}</td>
-                      <td>{order.status}</td>
                     </tr>
                   );
                 })}

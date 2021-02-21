@@ -8,8 +8,21 @@ export default function OrderDetails({ token }) {
   const location = useLocation();
   const history = useHistory();
   const [loading, setLoading] = useState<boolean>(false);
-  const [updateLoading, setUpdateLoading] = useState<boolean>(false);
+  // const [updateLoading, setUpdateLoading] = useState<boolean>(false);
   const [currentOrder, setCurrentOrder] = useState<any>(null);
+  const [total, setTotal] = useState<number>(0);
+  console.log(currentOrder);
+
+  useEffect(() => {
+    let orderTotal = 0;
+    if (currentOrder) {
+      currentOrder.products.forEach((p) => {
+        orderTotal = orderTotal + p.pivot.product_count * p.pivot.product_price;
+      });
+      orderTotal = orderTotal +  5;
+      setTotal(orderTotal);
+    }
+  }, [currentOrder]);
 
   useEffect(() => {
     let orderId = "";
@@ -40,7 +53,7 @@ export default function OrderDetails({ token }) {
   }, [location, token]);
 
   const updateOrder = () => {
-    setUpdateLoading(true);
+    // setUpdateLoading(true);
     axios
       .put(
         "https://plantes-et-jardins-back.herokuapp.com/api/orders",
@@ -55,12 +68,12 @@ export default function OrderDetails({ token }) {
         }
       )
       .then((response) => {
-        setUpdateLoading(false);
+        // setUpdateLoading(false);
         history.push("/messages-list");
       })
       .catch((e) => {
         console.error(e);
-        setUpdateLoading(false);
+        // setUpdateLoading(false);
       });
   };
   if (loading) return <LoadingScreen></LoadingScreen>;
@@ -70,68 +83,82 @@ export default function OrderDetails({ token }) {
         <div className="col">
           <h1>Informations de l'utilisateur</h1>
           <table>
-            <tr>
-              <td>nom et prénom : </td>
-              <td>{currentOrder?.name}</td>
-            </tr>
-            <tr>
-              <td>adresse : </td>
-              <td>{currentOrder?.address}</td>
-            </tr>
-            <tr>
-              <td>numéro de téléphone : </td>
-              <td>{currentOrder?.phoneNumber}</td>
-            </tr>
+            <tbody>
+              <tr>
+                <td>nom et prénom : </td>
+                <td>{currentOrder?.name}</td>
+              </tr>
+              <tr>
+                <td>adresse : </td>
+                <td>{currentOrder?.address}</td>
+              </tr>
+              <tr>
+                <td>numéro de téléphone : </td>
+                <td>{currentOrder?.phoneNumber}</td>
+              </tr>
+            </tbody>
           </table>
 
           <h1>Informations sur la commande</h1>
           {currentOrder?.products.map((product) => {
             return (
               <table>
-                <tr>
-                  <td>
-                    <ImageLoading
-                      alt={product?.name}
-                      height={150}
-                      width={150}
-                      imageUrl={product?.photo}
-                    />
-                  </td>
-                  <td>
-                    <table>
-                      <tr>
-                        <td>référence du produit: </td>
-                        <td>{product.id}</td>
-                      </tr>
-                      <tr>
-                        <td>nom du produit: </td>
-                        <td>{product.name}</td>
-                      </tr>
-                      <tr>
-                        <td>quantité : </td>
-                        <td>
-                          <strong>{product?.pivot?.product_count}</strong>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>prix unitaire aprés remise : </td>
-                        <td>{product?.pivot?.product_price}TND</td>
-                      </tr>
-                    </table>
-                  </td>
-                </tr>
+                <tbody>
+                  <tr>
+                    <td>
+                      <ImageLoading
+                        alt={product?.name}
+                        height={150}
+                        width={150}
+                        imageUrl={product?.photo}
+                      />
+                    </td>
+                    <td>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <td>référence du produit: </td>
+                            <td>{product.id}</td>
+                          </tr>
+                          <tr>
+                            <td>nom du produit: </td>
+                            <td>{product.name}</td>
+                          </tr>
+                          <tr>
+                            <td>quantité : </td>
+                            <td>
+                              <strong>{product?.pivot?.product_count}</strong>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>prix unitaire aprés remise : </td>
+                            <td>{product?.pivot?.product_price.toFixed(3)}TND</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
             );
           })}
         </div>
       </div>
       <div className="row">
-        <div className="col text-center">
-          <button onClick={updateOrder} className="btn btn-success">
-            Traiter la commande
-          </button>
+        <div className="col">
+          <h1>Prix total de la commande (livraison incluse 5.000 TND)</h1>
+          <h2>{total.toFixed(3)}TND</h2>
         </div>
       </div>
+      {currentOrder?.status === "new" && (
+        <div className="row">
+          <div className="col text-center">
+            <button onClick={updateOrder} className="btn btn-success">
+              Traiter la commande
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

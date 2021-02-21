@@ -7,7 +7,7 @@ export default function OrderDetails({ token }) {
   const location = useLocation();
   const history = useHistory();
   const [loading, setLoading] = useState<boolean>(false);
-  const [updateLoading, setUpdateLoading] = useState<boolean>(false);
+  // const [updateLoading, setUpdateLoading] = useState<boolean>(false);
   const [currentMessage, setCurrentMessage] = useState<any>(null);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function OrderDetails({ token }) {
   }, [location, token]);
 
   const updateMessage = () => {
-    setUpdateLoading(true);
+    // setUpdateLoading(true);
     axios
       .put(
         "https://plantes-et-jardins-back.herokuapp.com/api/messages",
@@ -55,12 +55,12 @@ export default function OrderDetails({ token }) {
         }
       )
       .then((response) => {
-        setUpdateLoading(false);
+        // setUpdateLoading(false);
         history.push("/messages-list");
       })
       .catch((e) => {
         console.error(e);
-        setUpdateLoading(false);
+        // setUpdateLoading(false);
       });
   };
 
@@ -100,13 +100,15 @@ export default function OrderDetails({ token }) {
           </table>
         </div>
       </div>
-      <div className="row">
-        <div className="col text-center">
-          <button onClick={updateMessage} className="btn btn-success">
-            Traiter la demande
-          </button>
+      {currentMessage?.status === "new" && (
+        <div className="row">
+          <div className="col text-center">
+            <button onClick={updateMessage} className="btn btn-success">
+              Traiter la demande
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

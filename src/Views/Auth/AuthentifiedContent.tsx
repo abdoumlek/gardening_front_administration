@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { lazy, Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 
 import { BrowserRouter as Router, Route, Switch, useHistory } from "react-router-dom";

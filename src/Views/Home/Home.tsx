@@ -6,7 +6,11 @@ import { useHistory } from "react-router-dom";
 const Home: FC<any> = ({ token }) => {
   const [outOfStockProducts, setOutOfStockProducts] = useState<any>([]);
   const [onPromotionProducts, setOnPromotionProducts] = useState<any>([]);
+  const [resolvedTodayOrders, setResolvedTodayOrders] = useState<any>([]);
+  const [resolvedTodayMessages, setResolvedTodayMessages] = useState<any>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  // const [ordersLoading, setOrdersLoading] = useState<boolean>(true);
+  // const [messagesLoading, setMessagesLoading] = useState<boolean>(true);
   const history = useHistory();
   useEffect(() => {
     const getProducts = () => {
@@ -32,11 +36,64 @@ const Home: FC<any> = ({ token }) => {
           setLoading(false);
         });
     };
+    const getOrders = () => {
+      // setOrdersLoading(true);
+      axios
+        .get("https://plantes-et-jardins-back.herokuapp.com/api/orders", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setResolvedTodayOrders(
+            response.data.filter((o) => {
+              return o.status === "resolved";
+              // && o.updated_date.includes(new Date().toISOString())
+            })
+          );
+          // setOrdersLoading(false);
+        })
+        .catch((e) => {
+          console.error(e);
+          // setOrdersLoading(false);
+        });
+    };
+    const getMessages = () => {
+      // setMessagesLoading(true);
+      axios
+        .get("https://plantes-et-jardins-back.herokuapp.com/api/messages", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((response) => {
+          setResolvedTodayMessages(
+            response.data.filter((o) => {
+              return o.status === "resolved";
+              // && o.updated_date.includes(new Date().toISOString())
+            })
+          );
+          // setMessagesLoading(false);
+        })
+        .catch((e) => {
+          console.error(e);
+          // setMessagesLoading(false);
+        });
+    };
+    getMessages();
+    getOrders();
     if (token) getProducts();
   }, [token]);
 
   const openProduct = (product) => {
     history.push("/add-product/" + product.id);
+  };
+
+  const openOrder = (id) => {
+    history.push("/order-details/" + id);
+  };
+  const openMessage = (id) => {
+    history.push("/message-details/" + id);
   };
 
   if (loading) {
@@ -95,6 +152,72 @@ const Home: FC<any> = ({ token }) => {
             </div>
           );
         })}
+      </div>
+      <div className="p-2">
+        <h1 className="text-center mb-5">Liste des Messages traités aujourd'hui</h1>
+        <div className="container">
+          <div className="row mb-3">
+            <div className="col max-height">
+              <table className="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Sujet de la demande</th>
+                    <th>Nom du client</th>
+                    <th>Numéro du client</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {resolvedTodayMessages.map((msg) => {
+                    return (
+                      <tr
+                        key={msg.id}
+                        onClick={() => {
+                          openMessage(msg.id);
+                        }}
+                      >
+                        <td>{msg.subject}</td>
+                        <td>{msg.firstName}</td>
+                        <td>{msg.phoneNumber}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <h1 className="text-center mb-5">Liste des commandes traités aujourd'hui</h1>
+        <div className="container">
+          <div className="row mb-3">
+            <div className="col max-height">
+              <table className="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Nom du client</th>
+                    <th>Numéro du client</th>
+                    <th>Adresse du client</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {resolvedTodayOrders.map((order) => {
+                    return (
+                      <tr
+                        key={order.id}
+                        onClick={() => {
+                          openOrder(order.id);
+                        }}
+                      >
+                        <td>{order.name}</td>
+                        <td>{order.phoneNumber}</td>
+                        <td>{order.address}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

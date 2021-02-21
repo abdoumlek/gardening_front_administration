@@ -15,15 +15,15 @@ const Login: FC<loginParams> = ({ loginSuccess }) => {
   const [token, setToken] = useState<string | null>(null);
   const [password, setPassword] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const history = useHistory();
 
   useEffect(() => {
     if (token) {
       loginSuccess({ access_token: token });
       history.push({ pathname: "/" });
     }
-  }, [token]);
+  }, [token, history, loginSuccess]);
 
-  const history = useHistory();
   const attemptLogin = (email, password) => {
     setLoading(true);
     axios

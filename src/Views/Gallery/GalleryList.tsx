@@ -82,8 +82,6 @@ const GalleryList: FC<any> = ({ token }) => {
               <div className="col">
                 <h3>{g.name}</h3>
                 <p>{g.description}</p>
-              </div>
-              <div className="col">
                 <button
                   className="btn btn-danger"
                   onClick={() => {
