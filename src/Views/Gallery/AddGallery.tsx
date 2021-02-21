@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { IKContext, IKUpload } from "imagekitio-react";
 import axios from "axios";
 import ImageLoading from "../../Components/ImageLoading/ImageLoading";
-
+import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const AddGallery = ({ token }) => {
   const [name, setName] = useState<string>("");
+  const history = useHistory();
+
   const [description, setDescription] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>(
     "/Pas_d_image_disponible_RgDT7_k2u.svg"
@@ -27,7 +29,10 @@ const AddGallery = ({ token }) => {
           },
         }
       )
-      .then((response) => toast.success("Image ajouté avec Succés"))
+      .then((response) => {
+        toast.success("Image ajouté avec Succés");
+        history.push("/gallery");
+      })
       .catch((e) => toast.error("une erreur c'est produite lors de l'ajout"));
   };
 
