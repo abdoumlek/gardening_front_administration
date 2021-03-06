@@ -20,7 +20,7 @@ const AddProduct: FC<any> = ({ token }) => {
       setLoading(true);
       axios
         .get(
-          "https://plantes-et-jardins-back.herokuapp.com/api/products/admin/" +
+          process.env.REACT_APP_BACKEND_URL + "/products/admin/" +
             productId,
           {
             headers: {
@@ -43,7 +43,7 @@ const AddProduct: FC<any> = ({ token }) => {
   useEffect(() => {
     const getCategories = () => {
       axios
-        .get("https://plantes-et-jardins-back.herokuapp.com/api/categories", {
+        .get(process.env.REACT_APP_BACKEND_URL + "/categories", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -99,7 +99,7 @@ const AddProduct: FC<any> = ({ token }) => {
     setActionLoading(true);
     axios
       .post(
-        "https://plantes-et-jardins-back.herokuapp.com/api/products",
+        process.env.REACT_APP_BACKEND_URL +  "/products",
         {
           name: name,
           description: description,
@@ -136,7 +136,7 @@ const AddProduct: FC<any> = ({ token }) => {
     setActionLoading(true);
     axios
       .put(
-        "https://plantes-et-jardins-back.herokuapp.com/api/products",
+        process.env.REACT_APP_BACKEND_URL + "/products",
         {
           name: name,
           description: description,
@@ -167,7 +167,7 @@ const AddProduct: FC<any> = ({ token }) => {
     setDeleteLoading(true);
     axios
       .delete(
-        "https://plantes-et-jardins-back.herokuapp.com/api/products/" + id,
+        process.env.REACT_APP_BACKEND_URL + "/products/" + id,
         {
           headers: {
             Authorization: `Bearer ${token}`,

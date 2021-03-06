@@ -13,7 +13,7 @@ const ProductsList: FC<any> = ({ token }) => {
       setLoading(true);
       axios
         .get(
-          "https://plantes-et-jardins-back.herokuapp.com/api/products/admin",
+          process.env.REACT_APP_BACKEND_URL + "/products/admin",
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -17,7 +17,7 @@ const AddGallery = ({ token }) => {
   const PostImageToGallery = (name, description, imageUrl) => {
     axios
       .post(
-        "https://plantes-et-jardins-back.herokuapp.com/api/galleries",
+        process.env.REACT_APP_BACKEND_URL + "/galleries",
         {
           name: name,
           description: description,

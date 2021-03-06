@@ -27,7 +27,7 @@ const Login: FC<loginParams> = ({ loginSuccess }) => {
   const attemptLogin = (email, password) => {
     setLoading(true);
     axios
-      .post("https://plantes-et-jardins-back.herokuapp.com/api/users/login", {
+      .post(process.env.REACT_APP_BACKEND_URL + "/users/login", {
         email: email,
         password: password,
       })

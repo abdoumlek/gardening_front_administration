@@ -13,7 +13,7 @@ const CategoryList: FC<any> = ({ token }) => {
     const getGalleries = () => {
       setLoading(true);
       axios
-        .get("https://plantes-et-jardins-back.herokuapp.com/api/categories", {
+        .get(process.env.REACT_APP_BACKEND_URL + "/categories", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -34,7 +34,7 @@ const CategoryList: FC<any> = ({ token }) => {
     setDeleteLoading(true);
     axios
       .delete(
-        "https://plantes-et-jardins-back.herokuapp.com/api/categories/" + id,
+        process.env.REACT_APP_BACKEND_URL + "/categories/" + id,
         {
           headers: {
             Authorization: `Bearer ${token}`,

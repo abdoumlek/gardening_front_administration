@@ -16,7 +16,7 @@ export default function OrderDetails({ token }) {
       setLoading(true);
       axios
         .get(
-          "https://plantes-et-jardins-back.herokuapp.com/api/messages/" +
+          process.env.REACT_APP_BACKEND_URL + "/messages/" +
             messageId,
           {
             headers: {
@@ -43,7 +43,7 @@ export default function OrderDetails({ token }) {
     // setUpdateLoading(true);
     axios
       .put(
-        "https://plantes-et-jardins-back.herokuapp.com/api/messages",
+        process.env.REACT_APP_BACKEND_URL + "/messages",
         {
           id: currentMessage.id,
           status: "resolved",

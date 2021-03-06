@@ -14,7 +14,7 @@ const GalleryList: FC<any> = ({ token }) => {
     const getGalleries = () => {
       setLoading(true);
       axios
-        .get("https://plantes-et-jardins-back.herokuapp.com/api/galleries", {
+        .get(process.env.REACT_APP_BACKEND_URL + "/galleries", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -35,7 +35,7 @@ const GalleryList: FC<any> = ({ token }) => {
     setDeleteLoading(true);
     axios
       .delete(
-        "https://plantes-et-jardins-back.herokuapp.com/api/galleries/" + id,
+        process.env.REACT_APP_BACKEND_URL + "/galleries/" + id,
         {
           headers: {
             Authorization: `Bearer ${token}`,

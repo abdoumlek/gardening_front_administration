@@ -17,7 +17,7 @@ const Home: FC<any> = ({ token }) => {
       setLoading(true);
       axios
         .get(
-          "https://plantes-et-jardins-back.herokuapp.com/api/products/admin",
+          process.env.REACT_APP_BACKEND_URL + "/products/admin",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ const Home: FC<any> = ({ token }) => {
     const getOrders = () => {
       // setOrdersLoading(true);
       axios
-        .get("https://plantes-et-jardins-back.herokuapp.com/api/orders", {
+        .get(process.env.REACT_APP_BACKEND_URL +"/orders", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -61,7 +61,7 @@ const Home: FC<any> = ({ token }) => {
     const getMessages = () => {
       // setMessagesLoading(true);
       axios
-        .get("https://plantes-et-jardins-back.herokuapp.com/api/messages", {
+        .get(process.env.REACT_APP_BACKEND_URL  + "/messages", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -30,7 +30,7 @@ export default function OrderDetails({ token }) {
       setLoading(true);
       axios
         .get(
-          "https://plantes-et-jardins-back.herokuapp.com/api/orders/" + orderId,
+          process.env.REACT_APP_BACKEND_URL  + "/orders/" + orderId,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -56,7 +56,7 @@ export default function OrderDetails({ token }) {
     // setUpdateLoading(true);
     axios
       .put(
-        "https://plantes-et-jardins-back.herokuapp.com/api/orders",
+        process.env.REACT_APP_BACKEND_URL + "/orders",
         {
           id: currentOrder.id,
           status: "resolved",

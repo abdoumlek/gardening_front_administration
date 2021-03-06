@@ -1,7 +1,12 @@
 import React, { lazy, Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 
-import { BrowserRouter as Router, Route, Switch, useHistory } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useHistory,
+} from "react-router-dom";
 import Navigation from "../../Components/Navigation/Navigation";
 import Home from "../Home/Home";
 import MessagesList from "../OrdersList/MessagesList";
@@ -19,16 +24,17 @@ const AddProduct = lazy(() => import("../Products/AddProduct"));
 const AddCategory = lazy(() => import("../Category/AddCategory"));
 
 function AuthentifiedContent({ token }) {
-
   const history = useHistory();
 
   axios.interceptors.response.use(
-    function(successRes) {
+    function (successRes) {
       return successRes;
-    }, 
-    function(error) {
-      sessionStorage.removeItem('token');
-      history.push("/login");
+    },
+    function (error) {
+      if (error?.response?.status === 401) {
+        sessionStorage.removeItem("token");
+        history.push("/login");
+      }
       return Promise.reject(error);
     }
   );
@@ -40,7 +46,7 @@ function AuthentifiedContent({ token }) {
         <ToastContainer />
         <Switch>
           <Route exact path="/">
-            <Home  token={token} />
+            <Home token={token} />
           </Route>
           <Route path="/products-list">
             <ProductsList token={token} />

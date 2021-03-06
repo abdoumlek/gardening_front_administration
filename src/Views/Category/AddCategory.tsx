@@ -9,7 +9,7 @@ const AddProduct: FC<any> = ({ token }) => {
   const postCategory = (name, description) => {
     axios
       .post(
-        "https://plantes-et-jardins-back.herokuapp.com/api/categories",
+        process.env.REACT_APP_BACKEND_URL +"/categories",
         {
           name: name,
           description: description,
