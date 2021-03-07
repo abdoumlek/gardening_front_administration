@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { IKContext, IKUpload } from "imagekitio-react";
 import axios from "axios";
-import ImageLoading from "../../Components/ImageLoading/ImageLoading";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -10,9 +8,39 @@ const AddGallery = ({ token }) => {
   const history = useHistory();
 
   const [description, setDescription] = useState<string>("");
+  const [uploadLoading, setUploadLoading] = useState<boolean>(false);
+
   const [imageUrl, setImageUrl] = useState<string>(
     "/Pas_d_image_disponible_RgDT7_k2u.svg"
   );
+
+  const uploadFile = (file: any) => {
+    setUploadLoading(true);
+    const formData = new FormData();
+    formData.append("file", file.target.files[0]);
+    formData.append("width", "300");
+    formData.append("height", "400");
+    formData.append("withThumbnails", "true");
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios
+      .post(
+        process.env.REACT_APP_BACKEND_URL + "/upload-image",
+        formData,
+        config
+      )
+      .then((response) => {
+        setImageUrl(response.data);
+      })
+      .catch((e) =>
+        toast.error("une erreur c'est produite lors du chargement de l'image")
+      )
+      .finally(() => setUploadLoading(false));
+  };
 
   const PostImageToGallery = (name, description, imageUrl) => {
     axios
@@ -70,31 +98,29 @@ const AddGallery = ({ token }) => {
             </div>
             <label>Image à ajouter dans la galerie</label>
 
-            <IKContext
-              publicKey="public_LV4KSYYDKUQ9OWZZM0ZIerfMH1s="
-              urlEndpoint="https://ik.imagekit.io/cjvyejrxtm"
-              transformationPosition="path"
-              authenticationEndpoint="https://plantes-et-jardins-back.herokuapp.com/api/galleries/upload"
-            >
-              <div className="custom-file mb-3">
-                <IKUpload
-                  className="custom-file-input"
-                  id="image-input"
-                  fileName="my-upload"
-                  onSuccess={(res) => setImageUrl(res.filePath)}
-                />
-                <label className="custom-file-label" htmlFor="image-input">
-                  Choose image
-                </label>
-              </div>
-            </IKContext>
-            <div className="text-center">
-              <ImageLoading
-                alt="image ajouté"
-                height={300}
-                width={300}
-                imageUrl={imageUrl}
+            <div className="custom-file mb-3">
+              <input
+                type="file"
+                className="custom-file-input"
+                id="image-input"
+                onChange={(file) => uploadFile(file)}
               />
+              <label className="custom-file-label" htmlFor="image-input">
+                Choose image
+              </label>
+            </div>
+            <div className="text-center">
+              <img
+                alt="gallery"
+                src={process.env.REACT_APP_UPLOADS_FOLDER + imageUrl}
+              />
+              {uploadLoading && (
+                    <span
+                      className="spinner-border spinner-border-sm text-success"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                )}
             </div>
             <div className="text-center mb-5">
               <button

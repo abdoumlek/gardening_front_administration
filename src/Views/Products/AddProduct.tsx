@@ -1,8 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
-import { IKContext, IKUpload } from "imagekitio-react";
 import { useLocation, useHistory } from "react-router-dom";
 import axios from "axios";
-import ImageLoading from "../../Components/ImageLoading/ImageLoading";
 
 import { toast } from "react-toastify";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
@@ -20,8 +18,7 @@ const AddProduct: FC<any> = ({ token }) => {
       setLoading(true);
       axios
         .get(
-          process.env.REACT_APP_BACKEND_URL + "/products/admin/" +
-            productId,
+          process.env.REACT_APP_BACKEND_URL + "/products/admin/" + productId,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -64,6 +61,7 @@ const AddProduct: FC<any> = ({ token }) => {
   const [description, setDescription] = useState<string>("");
   const [category, setCategory] = useState<number>(1);
   const [actionLoading, setActionLoading] = useState<boolean>(false);
+  const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>(
     "/Pas_d_image_disponible_RgDT7_k2u.svg"
@@ -99,7 +97,7 @@ const AddProduct: FC<any> = ({ token }) => {
     setActionLoading(true);
     axios
       .post(
-        process.env.REACT_APP_BACKEND_URL +  "/products",
+        process.env.REACT_APP_BACKEND_URL + "/products",
         {
           name: name,
           description: description,
@@ -122,6 +120,33 @@ const AddProduct: FC<any> = ({ token }) => {
       })
       .catch((e) => toast.error("une erreur c'est produite lors de l'ajout"))
       .finally(() => setActionLoading(false));
+  };
+  const uploadFile = (file: any) => {
+    setUploadLoading(true);
+    const formData = new FormData();
+    formData.append("file", file.target.files[0]);
+    formData.append("width", "300");
+    formData.append("height", "400");
+    formData.append("withThumbnails", "true");
+    const config = {
+      headers: {
+        "content-type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios
+      .post(
+        process.env.REACT_APP_BACKEND_URL + "/upload-image",
+        formData,
+        config
+      )
+      .then((response) => {
+        setImageUrl(response.data);
+      })
+      .catch((e) =>
+        toast.error("une erreur c'est produite lors du chargement de l'image")
+      )
+      .finally(() => setUploadLoading(false));
   };
   const updateProduct = (
     name,
@@ -166,14 +191,11 @@ const AddProduct: FC<any> = ({ token }) => {
   const deleteProduct = (id) => {
     setDeleteLoading(true);
     axios
-      .delete(
-        process.env.REACT_APP_BACKEND_URL + "/products/" + id,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      .delete(process.env.REACT_APP_BACKEND_URL + "/products/" + id, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((response) => {
         history.push("/products-list");
         toast.success("Produit supprimé avec Succés");
@@ -241,31 +263,30 @@ const AddProduct: FC<any> = ({ token }) => {
           <div className="col-12 col-lg-6">
             <label>Image du produit</label>
 
-            <IKContext
-              publicKey="public_LV4KSYYDKUQ9OWZZM0ZIerfMH1s="
-              urlEndpoint="https://ik.imagekit.io/cjvyejrxtm"
-              transformationPosition="path"
-              authenticationEndpoint="https://plantes-et-jardins-back.herokuapp.com/api/products/upload"
-            >
-              <div className="custom-file mb-3">
-                <IKUpload
-                  className="custom-file-input"
-                  id="image-input"
-                  fileName="my-upload"
-                  onSuccess={(res) => setImageUrl(res.filePath)}
-                />
-                <label className="custom-file-label" htmlFor="image-input">
-                  Choose image
-                </label>
-              </div>
-            </IKContext>
-            <div className="text-center">
-              <ImageLoading
-                alt="image ajouté"
-                height={300}
-                width={300}
-                imageUrl={imageUrl}
+            <div className="custom-file mb-3">
+              <input
+                type="file"
+                className="custom-file-input"
+                id="image-input"
+                onChange={(file) => uploadFile(file)}
               />
+              <label className="custom-file-label" htmlFor="image-input">
+                Choose image
+              </label>
+            </div>
+
+            <div className="text-center">
+              <img
+                alt="plante"
+                src={process.env.REACT_APP_UPLOADS_FOLDER + imageUrl}
+              />
+              {uploadLoading && (
+                <span
+                  className="spinner-border spinner-border-sm text-success"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+              )}
             </div>
           </div>
         </div>

@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import "./Product.css";
-import ImageLoading from "../ImageLoading/ImageLoading";
 
 type ProductType = {
   reference: string;
@@ -22,7 +21,7 @@ const Product: FC<ProductType> = ({
 }) => {
   return (
     <div className="product-component">
-      <ImageLoading alt={name} height={150} width={150} imageUrl={photo} />
+      <img alt={name}  src={process.env.REACT_APP_THUMBNAILS_FOLDER+photo} />
       <div className="text-content  px-2">
         <p className="text-center mb-1 product-name">
           {name} {reference ? " - " + reference : null}

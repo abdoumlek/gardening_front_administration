@@ -2,7 +2,6 @@ import React, { FC, useState, useEffect } from "react";
 import axios from "axios";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 import { Link } from "react-router-dom";
-import ImageLoading from "../../Components/ImageLoading/ImageLoading";
 import { toast } from "react-toastify";
 
 const GalleryList: FC<any> = ({ token }) => {
@@ -72,11 +71,9 @@ const GalleryList: FC<any> = ({ token }) => {
           return (
             <div className="row" key={g.id}>
               <div className="col">
-                <ImageLoading
+                <img
                   alt={g.name}
-                  height={400}
-                  width={400}
-                  imageUrl={g.photo}
+                  src={process.env.REACT_APP_UPLOADS_FOLDER + g.photo}
                 />
               </div>
               <div className="col">

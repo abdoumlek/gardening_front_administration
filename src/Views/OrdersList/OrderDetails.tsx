@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
-import ImageLoading from "../../Components/ImageLoading/ImageLoading";
 import LoadingScreen from "../../Components/LoadingScreen/LoadingScreen";
 
 export default function OrderDetails({ token }) {
@@ -106,11 +105,9 @@ export default function OrderDetails({ token }) {
                 <tbody>
                   <tr>
                     <td>
-                      <ImageLoading
+                      <img
                         alt={product?.name}
-                        height={150}
-                        width={150}
-                        imageUrl={product?.photo}
+                        src={process.env.REACT_APP_THUMBNAILS_FOLDER + product?.photo}
                       />
                     </td>
                     <td>
