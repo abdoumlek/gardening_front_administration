@@ -18,7 +18,7 @@ export default function OrderDetails({ token }) {
       currentOrder.products.forEach((p) => {
         orderTotal = orderTotal + p.pivot.product_count * p.pivot.product_price;
       });
-      orderTotal = orderTotal +  5;
+      orderTotal = orderTotal +  7;
       setTotal(orderTotal);
     }
   }, [currentOrder]);
@@ -143,7 +143,7 @@ export default function OrderDetails({ token }) {
       </div>
       <div className="row">
         <div className="col">
-          <h1>Prix total de la commande (livraison incluse 5.000 TND)</h1>
+          <h1>Prix total de la commande (livraison incluse 7.000 TND)</h1>
           <h2>{total.toFixed(3)}TND</h2>
         </div>
       </div>
