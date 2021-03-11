@@ -129,7 +129,7 @@ export default function OrderDetails({ token }) {
                           </tr>
                           <tr>
                             <td>prix unitaire aprés remise : </td>
-                            <td>{product?.pivot?.product_price.toFixed(3)}TND</td>
+                            <td>{parseFloat(product?.pivot?.product_price).toFixed(3)}TND</td>
                           </tr>
                         </tbody>
                       </table>

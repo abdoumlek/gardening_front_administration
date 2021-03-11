@@ -59,12 +59,12 @@ const AddProduct: FC<any> = ({ token }) => {
 
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-  const [category, setCategory] = useState<number>(1);
+  const [category, setCategory] = useState<number|null>(null);
   const [actionLoading, setActionLoading] = useState<boolean>(false);
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
   const [deleteLoading, setDeleteLoading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>(
-    "/Pas_d_image_disponible_RgDT7_k2u.svg"
+    "/No_image.png"
   );
   const [sellingPrice, setSellingPrice] = useState<number>(0);
   const [buyingPrice, setBuyingPrice] = useState<number>(0);
@@ -247,12 +247,15 @@ const AddProduct: FC<any> = ({ token }) => {
             <label>Category du produit</label>
 
             <select
-              value={category}
-              onChange={(htmlElement) =>
-                setCategory(parseInt(htmlElement.target.value))
-              }
+              value={category??""}
+              onChange={(htmlElement) =>{
+                console.log("category",htmlElement.target.value);
+                setCategory(
+                  parseInt(htmlElement.target.value))
+              }}
               className="custom-select custom-select-lg mb-3"
             >
+              <option>Veuillez Choisir une Catégorie</option>
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
